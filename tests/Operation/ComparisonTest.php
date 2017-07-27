@@ -30,8 +30,13 @@ class ComparisonTest extends \PHPUnit_Framework_TestCase
      */
     public function testItComparesNumbers($a, $b, $expected)
     {
-        $comparison = new Comparison(Comparison::USE_OWN_IMPLEMENTATION);
-        $this->assertSame($expected, $comparison->compare(new Number($a), new Number($b)));
+        $comparison = new Comparison();
+
+        $result1 = $comparison->compareUsingBcMath(new Number($a), new Number($b));
+        $result2 = $comparison->compareWithoutBcMath(new Number($a), new Number($b));
+
+        $this->assertSame($expected, $result1, "Failed assertion (BC Math)");
+        $this->assertSame($expected, $result2, "Failed assertion");
     }
 
     public function provideCompareTestCases()

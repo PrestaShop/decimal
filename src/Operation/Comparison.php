@@ -17,25 +17,6 @@ class Comparison
 {
 
     /**
-     * Used to make this class use its own addition implementation regardless the avalability of BCMath extension
-     */
-    const USE_OWN_IMPLEMENTATION = true;
-
-    /**
-     * Disables the use of BC Math implementation
-     * @var bool
-     */
-    private $forceOwnImplementation = false;
-
-    /**
-     * @param bool $forceOwnImplementation If true, do not use BC Math implementation
-     */
-    public function __construct($forceOwnImplementation = false)
-    {
-        $this->forceOwnImplementation = $forceOwnImplementation;
-    }
-
-    /**
      * Compares two decimal numbers.
      *
      * @param DecimalNumber $a
@@ -45,10 +26,36 @@ class Comparison
      */
     public function compare(DecimalNumber $a, DecimalNumber $b)
     {
-        if (!$this->forceOwnImplementation && function_exists('bccomp')) {
-            return bccomp((string) $a, (string) $b, max($a->getExponent(), $b->getExponent()));
+        if (function_exists('bccomp')) {
+            return $this->compareUsingBcMath($a, $b);
         }
 
+        return $this->compareWithoutBcMath($a, $b);
+    }
+
+    /**
+     * Compares two decimal numbers using BC Math
+     *
+     * @param DecimalNumber $a
+     * @param DecimalNumber $b
+     *
+     * @return int Returns 1 if $a > $b, -1 if $a < $b, and 0 if they are equal.
+     */
+    public function compareUsingBcMath(DecimalNumber $a, DecimalNumber $b)
+    {
+        return bccomp((string) $a, (string) $b, max($a->getExponent(), $b->getExponent()));
+    }
+
+    /**
+     * Compares two decimal numbers without using BC Math
+     *
+     * @param DecimalNumber $a
+     * @param DecimalNumber $b
+     *
+     * @return int Returns 1 if $a > $b, -1 if $a < $b, and 0 if they are equal.
+     */
+    public function compareWithoutBcMath(DecimalNumber $a, DecimalNumber $b)
+    {
         $signCompare = $this->compareSigns($a->getSign(), $b->getSign());
         if ($signCompare !== 0) {
             return $signCompare;

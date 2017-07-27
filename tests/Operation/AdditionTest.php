@@ -30,10 +30,12 @@ class AdditionTest extends \PHPUnit_Framework_TestCase
         $n1 = new Number($number1);
         $n2 = new Number($number2);
 
-        $result = (new Addition(Addition::USE_OWN_IMPLEMENTATION))
-            ->compute($n1, $n2);
+        $operation = new Addition();
+        $result1 = $operation->computeUsingBcMath($n1, $n2);
+        $result2 = $operation->computeWithoutBcMath($n1, $n2);
 
-        $this->assertSame($expectedResult, (string) $result, "Failed asserting $number1 + $number2 = $expectedResult");
+        $this->assertSame($expectedResult, (string) $result1, "Failed asserting $number1 + $number2 = $expectedResult (BC Math)");
+        $this->assertSame($expectedResult, (string) $result2, "Failed asserting $number1 + $number2 = $expectedResult");
     }
 
     public function provideNumbersToAdd()

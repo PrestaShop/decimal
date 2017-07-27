@@ -16,17 +16,6 @@ use PrestaShop\Decimal\Number as DecimalNumber;
 class Subtraction
 {
     /**
-     * Used to make this class use its own addition implementation regardless the availability of BCMath extension
-     */
-    const USE_OWN_IMPLEMENTATION = true;
-
-    /**
-     * Disables the use of BC Math implementation
-     * @var bool
-     */
-    private $forceOwnImplementation = false;
-
-    /**
      * Maximum safe string size in order to be confident
      * that it won't overflow the max int size when operating with it
      * @var int
@@ -34,11 +23,10 @@ class Subtraction
     private $maxSafeIntStringSize;
 
     /**
-     * @param bool $forceOwnImplementation If true, do not use BC Math implementation
+     * Constructor
      */
-    public function __construct($forceOwnImplementation = false)
+    public function __construct()
     {
-        $this->forceOwnImplementation = $forceOwnImplementation;
         $this->maxSafeIntStringSize = strlen((string) PHP_INT_MAX) - 1;
     }
 
@@ -52,12 +40,38 @@ class Subtraction
      */
     public function compute(DecimalNumber $a, DecimalNumber $b)
     {
-        if (!$this->forceOwnImplementation && function_exists('bcadd')) {
-            $precision1 = $a->getPrecision();
-            $precision2 = $b->getPrecision();
-            return new DecimalNumber((string) bcsub($a, $b, max($precision1, $precision2)));
+        if (function_exists('bcsub')) {
+            return $this->computeUsingBcMath($a, $b);
         }
 
+        return $this->computeWithoutBcMath($a, $b);
+    }
+
+    /**
+     * Performs the subtraction using BC Math
+     *
+     * @param DecimalNumber $a
+     * @param DecimalNumber $b
+     *
+     * @return DecimalNumber Result of the subtraction
+     */
+    public function computeUsingBcMath(DecimalNumber $a, DecimalNumber $b)
+    {
+        $precision1 = $a->getPrecision();
+        $precision2 = $b->getPrecision();
+        return new DecimalNumber((string) bcsub($a, $b, max($precision1, $precision2)));
+    }
+
+    /**
+     * Performs the subtraction without using BC Math
+     *
+     * @param DecimalNumber $a
+     * @param DecimalNumber $b
+     *
+     * @return DecimalNumber Result of the subtraction
+     */
+    public function computeWithoutBcMath(DecimalNumber $a, DecimalNumber $b)
+    {
         if ($a->isNegative()) {
             if ($b->isNegative()) {
                 // if both minuend and subtrahend are negative
