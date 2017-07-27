@@ -1,0 +1,34 @@
+{
+    "name": "prestashop/decimal",
+    "description": "Object-oriented wrapper/shim for BC Math PHP extension",
+    "keywords": [
+        "decimal",
+        "math",
+        "bcmath",
+        "prestashop"
+    ],
+    "homepage": "https://github.com/prestasohp/decimal",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pablo Borowicz",
+            "email": "eternoendless@gmail.com"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "PrestaShop\\Decimal\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PrestaShop\\Decimal\\Test\\": "tests"
+        }
+    }
+}
