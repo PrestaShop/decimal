@@ -130,7 +130,7 @@ class Number
      */
     public function getPrecision()
     {
-        return $this->exponent;
+        return $this->getExponent();
     }
 
     /**
@@ -147,7 +147,7 @@ class Number
     /**
      * Returns the exponent of this number. For practical reasons, this exponent is always >= 0.
      *
-     * This value can also be interpreted as the number of significant digits on the decimal part.
+     * This value can also be interpreted as the number of significant digits on the fractional part.
      *
      * @return int
      */
