@@ -6,7 +6,7 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  */
 
-namespace PrestaShop\PrestaShop\test\Unit\Core\Decimal\Operation;
+namespace PrestaShop\Decimal\Test\Operation;
 
 use PrestaShop\Decimal\Number;
 use PrestaShop\Decimal\Operation\Comparison;
