@@ -138,7 +138,8 @@ $number->invert();            // new Decimal\Number('-123.456')
 ## Testing
 
 ``` bash
-$ phpunit
+$ composer install
+$ vendor/bin/phpunit
 ```
 
 ## Contributing
