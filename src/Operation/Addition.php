@@ -182,13 +182,13 @@ class Addition
      */
     private function addStrings($number1, $number2, $fractional = false)
     {
-        if ('0' !== $number1[0] && '0' !== $number2[0]) {
-            // optimization - numbers can be treated as integers as long as they don't overflow the max int size
-            if (strlen($number1) <= $this->maxSafeIntStringSize
-                && strlen($number2) <= $this->maxSafeIntStringSize
-            ) {
-                return (string) ((int) $number1 + (int) $number2);
-            }
+        // optimization - numbers can be treated as integers as long as they don't overflow the max int size
+        if ('0' !== $number1[0]
+            && '0' !== $number2[0]
+            && strlen($number1) <= $this->maxSafeIntStringSize
+            && strlen($number2) <= $this->maxSafeIntStringSize
+        ) {
+            return (string) ((int) $number1 + (int) $number2);
         }
 
         // find out which of the strings is longest
