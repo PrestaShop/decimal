@@ -14,7 +14,7 @@ before_script:
   - travis_retry composer install --no-interaction --prefer-source
 
 script:
-  - phpunit --coverage-text --coverage-clover=coverage.clover
+  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
   - php vendor/bin/codacycoverage clover build/logs/clover.xml
