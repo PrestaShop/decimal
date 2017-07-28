@@ -34,8 +34,8 @@ class Addition
     /**
      * Performs the addition
      *
-     * @param DecimalNumber $a
-     * @param DecimalNumber $b
+     * @param DecimalNumber $a Base number
+     * @param DecimalNumber $b Addend
      *
      * @return DecimalNumber Result of the addition
      */
@@ -51,8 +51,8 @@ class Addition
     /**
      * Performs the addition using BC Math
      *
-     * @param DecimalNumber $a
-     * @param DecimalNumber $b
+     * @param DecimalNumber $a Base number
+     * @param DecimalNumber $b Addend
      *
      * @return DecimalNumber Result of the addition
      */
@@ -66,16 +66,42 @@ class Addition
     /**
      * Performs the addition without BC Math
      *
-     * @param DecimalNumber $a
-     * @param DecimalNumber $b
+     * @param DecimalNumber $a Base number
+     * @param DecimalNumber $b Addend
      *
      * @return DecimalNumber Result of the addition
      */
     public function computeWithoutBcMath(DecimalNumber $a, DecimalNumber $b)
     {
-        // if the addend is negative, e.g. 2 + (-1)
-        // perform subtraction instead: 2 - 1
+        if ($a->isNegative()) {
+            if ($b->isNegative()) {
+                // if both numbers are negative,
+                // we can just add them as positive numbers and then invert the sign
+                // f(x, y) = -(|x| + |y|)
+                // eg. f(-1, -2) = -(|-1| + |-2|) = -3
+                // eg. f(-2, -1) = -(|-2| + |-1|) = -3
+                return $this
+                    ->computeWithoutBcMath($a->toPositive(), $b->toPositive())
+                    ->invert();
+            }
+            // if the number is negative and the addend positive,
+            // perform an inverse subtraction by inverting the terms
+            // f(x, y) = y - |x|
+            // eg. f(-2, 1) = 1 - |-2| = -1
+            // eg. f(-1, 2) = 2 - |-1| = 1
+            // eg. f(-1, 1) = 1 - |-1| = 0
+            return $b->minus(
+                $a->toPositive()
+            );
+        }
+
         if ($b->isNegative()) {
+            // if the number is positive and the addend is negative
+            // perform subtraction instead: 2 - 1
+            // f(x, y) = x - |y|
+            // f(2, -1) = 2 - |-1| = 1
+            // f(1, -2) = 1 - |-2| = -1
+            // f(1, -1) = 1 - |-1| = 0
             return $a->minus(
                 $b->toPositive()
             );

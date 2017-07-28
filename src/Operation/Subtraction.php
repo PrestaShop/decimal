@@ -33,8 +33,8 @@ class Subtraction
     /**
      * Performs the subtraction
      *
-     * @param DecimalNumber $a
-     * @param DecimalNumber $b
+     * @param DecimalNumber $a Minuend
+     * @param DecimalNumber $b Subtrahend
      *
      * @return DecimalNumber Result of the subtraction
      */
@@ -50,8 +50,8 @@ class Subtraction
     /**
      * Performs the subtraction using BC Math
      *
-     * @param DecimalNumber $a
-     * @param DecimalNumber $b
+     * @param DecimalNumber $a Minuend
+     * @param DecimalNumber $b Subtrahend
      *
      * @return DecimalNumber Result of the subtraction
      */
@@ -65,8 +65,8 @@ class Subtraction
     /**
      * Performs the subtraction without using BC Math
      *
-     * @param DecimalNumber $a
-     * @param DecimalNumber $b
+     * @param DecimalNumber $a Minuend
+     * @param DecimalNumber $b Subtrahend
      *
      * @return DecimalNumber Result of the subtraction
      */
@@ -79,7 +79,7 @@ class Subtraction
                 // f(x, y) = |y| - |x|
                 // eg. f(-1, -2) = |-2| - |-1| = 2 - 1 = 1
                 // e.g. f(-2, -1) =  |-1| - |-2| = 1 - 2 = -1
-                return $this->compute($b->toPositive(), $a->toPositive());
+                return $this->computeWithoutBcMath($b->toPositive(), $a->toPositive());
             } else {
                 // if the minuend is negative and the subtrahend is positive,
                 // we can just add them as positive numbers and then invert the sign
