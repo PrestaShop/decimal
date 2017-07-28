@@ -308,7 +308,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
             'empty string' => [''],
             'NaN' => ['asd'],
             'NaN with dot' => ['asd.foo'],
-            'NaN with point' => ['asd.foo'],
+            'NaN with comma' => ['asd,foo'],
             'array' => [array()],
             'null' => [null],
         ];
@@ -322,7 +322,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
             'empty string' => ['', 0],
             'NaN' => ['asd', 0],
             'NaN with dot' => ['asd.foo', 0],
-            'NaN with point' => ['asd.foo', 0],
+            'NaN with comma' => ['asd,foo', 0],
             'array' => [array(), 0],
             'null' => [null, 0],
             'negative coefficient' => ['123', -5],

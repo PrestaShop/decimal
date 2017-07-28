@@ -165,7 +165,7 @@ class Addition
             $coeff1 = str_pad($coeff1, $len2, '0', STR_PAD_LEFT);
         }
 
-        return array($coeff1, $coeff2);
+        return [$coeff1, $coeff2];
     }
 
 

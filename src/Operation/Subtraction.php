@@ -164,7 +164,7 @@ class Subtraction
 
     /**
      * Subtracts $number2 to $number1.
-     * For this algorightm to work, $number1 has to be >= $number 2.
+     * For this algorithm to work, $number1 has to be >= $number 2.
      *
      * @param string $number1
      * @param string $number2

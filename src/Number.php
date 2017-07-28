@@ -106,6 +106,7 @@ class Number
     /**
      * Returns the fractional part of the number.
      * Note that this does NOT include the sign.
+     *
      * @return string
      */
     public function getFractionalPart()
@@ -173,6 +174,7 @@ class Number
 
     /**
      * Returns a string representation of this object
+     *
      * @return string
      */
     public function __toString()
