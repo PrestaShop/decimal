@@ -203,13 +203,8 @@ class Addition
         for ($i = $maxLength - 1; 0 <= $i; $i--) {
             $sum = $number1[$i] + $number2[$i] + $carryOver;
 
-            if ($sum >= 10) {
-                $result .= $sum % 10;
-                $carryOver = 1;
-            } else {
-                $result .= $sum;
-                $carryOver = 0;
-            }
+            $result .= $sum % 10;
+            $carryOver = (int) ($sum >= 10);
         }
         if ($carryOver > 0) {
             $result .= '1';
