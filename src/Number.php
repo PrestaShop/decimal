@@ -398,6 +398,36 @@ class Number
         if ('' === $this->coefficient) {
             $this->exponent = 0;
             $this->coefficient = '0';
+            return;
+        }
+
+        $this->removeTrailingZeroesIfNeeded();
+    }
+
+    /**
+     * Removes trailing zeroes from the fractional part and adjusts the exponent acorrdingly
+     */
+    private function removeTrailingZeroesIfNeeded()
+    {
+        $exponent = $this->getExponent();
+        $coefficient = $this->getCoefficient();
+
+        // trim trailing zeroes from the fractional part
+        // for example 1000e-1 => 100.0
+        if (0 < $exponent && '0' === substr($coefficient, -1)) {
+            $fractionalPart = $this->getFractionalPart();
+            $trailingZeroesToRemove = 0;
+            for ($i = $exponent - 1; $i >= 0; $i--) {
+                if ('0' !== $fractionalPart[$i]) {
+                    break;
+                }
+                $trailingZeroesToRemove++;
+            }
+
+            if ($trailingZeroesToRemove > 0) {
+                $this->coefficient = substr($coefficient, 0, -$trailingZeroesToRemove);
+                $this->exponent = $exponent - $trailingZeroesToRemove;
+            }
         }
     }
 }
