@@ -345,7 +345,7 @@ class Number
     {
         if (!preg_match("/^(?<sign>[-+])?(?<integerPart>\d+)(?:\.(?<fractionalPart>\d+))?$/", $number, $parts)) {
             throw new \InvalidArgumentException(
-                sprintf('"%s" cannot be interpreted as a number', $number)
+                sprintf('"%s" cannot be interpreted as a number', print_r($number, true))
             );
         }
 
