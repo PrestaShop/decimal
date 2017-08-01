@@ -264,6 +264,18 @@ class Number
     }
 
     /**
+     * Returns the computed result of multiplying this number with another one
+     *
+     * @param self $factor
+     *
+     * @return self
+     */
+    public function times(self $factor)
+    {
+        return (new Operation\Multiplication())->compute($this, $factor);
+    }
+
+    /**
      * Indicates if this number is greater than the provided one
      *
      * @param self $number
