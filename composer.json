@@ -1,13 +1,15 @@
 {
     "name": "prestashop/decimal",
-    "description": "Object-oriented wrapper/shim for BC Math PHP extension",
+    "description": "Object-oriented wrapper/shim for BC Math PHP extension. Allows for arbitrary-precision math operations.",
+    "type": "library",
     "keywords": [
         "decimal",
         "math",
+        "precision",
         "bcmath",
         "prestashop"
     ],
-    "homepage": "https://github.com/prestasohp/decimal",
+    "homepage": "https://github.com/prestashop/decimal",
     "license": "MIT",
     "authors": [
         {
