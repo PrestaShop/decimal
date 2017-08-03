@@ -1,6 +1,8 @@
 # Decimal
 
-[![Build Status](https://img.shields.io/travis/prestashop/decimal/master.svg?style=flat-square)](https://travis-ci.org/prestashop/decimal)
+[![Build Status](https://api.travis-ci.org/PrestaShop/decimal.svg?branch=master)](https://travis-ci.org/PrestaShop/decimal)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/985899efeb83453babcc507def66c90e)](https://www.codacy.com/app/PrestaShop/decimal?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PrestaShop/decimal&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/985899efeb83453babcc507def66c90e)](https://www.codacy.com/app/PrestaShop/decimal?utm_source=github.com&utm_medium=referral&utm_content=PrestaShop/decimal&utm_campaign=Badge_Coverage)
 [![Total Downloads](https://img.shields.io/packagist/dt/prestashop/decimal.svg?style=flat-square)](https://packagist.org/packages/prestashop/decimal)
 
 An object-oriented [BC Math extension](http://php.net/manual/en/book.bc.php) wrapper/shim.
@@ -144,7 +146,7 @@ $ vendor/bin/phpunit
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/thephpleague/:package_name/blob/master/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Credits
 
