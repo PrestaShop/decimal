@@ -45,6 +45,13 @@ $b = new PrestaShop\Decimal\Number('654.321');
 echo $a->minus($b); // echoes '123.456'
 ```
 
+### Multiplication
+```php
+$a = new PrestaShop\Decimal\Number('777.777');
+$b = new PrestaShop\Decimal\Number('654.321');
+echo $a->times($b); // echoes '508915.824417'
+```
+
 ### Comparison
 ```php
 $a->equals($b);
