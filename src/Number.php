@@ -276,6 +276,19 @@ class Number
     }
 
     /**
+     * Returns the computed result of dividing this number by another one, with up to $precision number of decimals
+     *
+     * @param self $divisor
+     * @param int $precision [optional] By default, up to Operation\Division::DEFAULT_PRECISION number of decimals.
+     *
+     * @return self
+     */
+    public function dividedBy(self $divisor, $precision = Operation\Division::DEFAULT_PRECISION)
+    {
+        return (new Operation\Division())->compute($this, $divisor, $precision);
+    }
+
+    /**
      * Indicates if this number is greater than the provided one
      *
      * @param self $number
