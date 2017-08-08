@@ -349,6 +349,18 @@ class Number
     }
 
     /**
+     * Creates a new copy of this number multiplied by 10^$exponent
+     *
+     * @param int $exponent
+     *
+     * @return static
+     */
+    public function toMagnitude($exponent)
+    {
+        return (new Operation\MagnitudeChange())->compute($this, $exponent);
+    }
+
+    /**
      * Initializes the number using a string
      *
      * @param string $number
