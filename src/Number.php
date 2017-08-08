@@ -288,6 +288,18 @@ class Number
     }
 
     /**
+     * Indicates if this number is greater or equal compared to the provided one
+     *
+     * @param self $number
+     *
+     * @return bool
+     */
+    public function isGreaterOrEqualThan(self $number)
+    {
+        return (0 <= (new Operation\Comparison())->compare($this, $number));
+    }
+
+    /**
      * Indicates if this number is greater than the provided one
      *
      * @param self $number
@@ -297,6 +309,18 @@ class Number
     public function isLowerThan(self $number)
     {
         return (-1 === (new Operation\Comparison())->compare($this, $number));
+    }
+
+    /**
+     * Indicates if this number is lower or equal compared to the provided one
+     *
+     * @param self $number
+     *
+     * @return bool
+     */
+    public function isLowerOrEqualThan(self $number)
+    {
+        return (0 >= (new Operation\Comparison())->compare($this, $number));
     }
 
     /**
