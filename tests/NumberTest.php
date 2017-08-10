@@ -297,6 +297,9 @@ class NumberTest extends \PHPUnit_Framework_TestCase
             'minus exponent 8 with leading' => ['-0123456', 8, '-0.00123456'],
             'minus zero' => ['-0', 8, '0'],
             'minus leading zeroes' => ['-00000', 8, '0'],
+            // trailing zeroes should be dropped on the decimal part
+            'trailing zeroes 1' => ['10000000', 4, '1000'],
+            'trailing zeroes 2' => ['10002000', 4, '1000.2'],
         ];
     }
 

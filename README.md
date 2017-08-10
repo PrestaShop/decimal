@@ -35,6 +35,7 @@ echo $number; // echoes '123.456'
 ```php
 $a = new PrestaShop\Decimal\Number('123.456');
 $b = new PrestaShop\Decimal\Number('654.321');
+
 echo $a->plus($b); // echoes '777.777'
 ```
 
@@ -42,14 +43,36 @@ echo $a->plus($b); // echoes '777.777'
 ```php
 $a = new PrestaShop\Decimal\Number('777.777');
 $b = new PrestaShop\Decimal\Number('654.321');
+
 echo $a->minus($b); // echoes '123.456'
+```
+
+### Multiplication
+```php
+$a = new PrestaShop\Decimal\Number('777.777');
+$b = new PrestaShop\Decimal\Number('654.321');
+
+echo $a->times($b); // echoes '508915.824417'
+```
+
+### Division
+```php
+$a = new PrestaShop\Decimal\Number('777.777');
+$b = new PrestaShop\Decimal\Number('654.321');
+
+echo $a->dividedBy($b, 0);  // echoes '1'
+echo $a->dividedBy($b, 5);  // echoes '1.18867'
+echo $a->dividedBy($b, 10); // echoes '1.1886780341'
+echo $a->dividedBy($b, 15); // echoes '1.188678034175886'
 ```
 
 ### Comparison
 ```php
 $a->equals($b);
 $a->isLowerThan($b);
+$a->isLowerOrEqualThan($b);
 $a->isGreaterThan($b);
+$a->isGreaterOrEqualThan($b);
 ```
 
 ### Rounding
@@ -121,6 +144,17 @@ $a->toPrecision(7, PrestaShop\Decimal\Operation\Rounding::ROUND_HALF_EVEN);  // 
 $a->toPrecision(8, PrestaShop\Decimal\Operation\Rounding::ROUND_HALF_EVEN);  // '1.15253546'
 $a->toPrecision(9, PrestaShop\Decimal\Operation\Rounding::ROUND_HALF_EVEN);  // '1.152535456'
 $a->toPrecision(10, PrestaShop\Decimal\Operation\Rounding::ROUND_HALF_EVEN); // '1.1525354556'
+```
+
+### Dot shifting
+```php
+$a = new Decimal\Number('123.456789');
+
+// shift 3 digits to the left
+$a->toMagnitude(-3); // 0.123456789
+
+// shift 3 digits to the right
+$a->toMagnitude(3); // 123456.789
 ```
 
 ### Useful methods

@@ -264,6 +264,37 @@ class Number
     }
 
     /**
+     * Returns the computed result of multiplying this number with another one
+     *
+     * @param self $factor
+     *
+     * @return self
+     */
+    public function times(self $factor)
+    {
+        return (new Operation\Multiplication())->compute($this, $factor);
+    }
+
+    /**
+     * Returns the computed result of dividing this number by another one, with up to $precision number of decimals.
+     *
+     * A target maximum precision is required in order to handle potential infinite number of decimals
+     * (e.g. 1/3 = 0.3333333...).
+     *
+     * If the division yields more decimal positions than the requested precision,
+     * the remaining decimals are truncated, with **no rounding**.
+     *
+     * @param self $divisor
+     * @param int $precision [optional] By default, up to Operation\Division::DEFAULT_PRECISION number of decimals.
+     *
+     * @return self
+     */
+    public function dividedBy(self $divisor, $precision = Operation\Division::DEFAULT_PRECISION)
+    {
+        return (new Operation\Division())->compute($this, $divisor, $precision);
+    }
+
+    /**
      * Indicates if this number is greater than the provided one
      *
      * @param self $number
@@ -276,6 +307,18 @@ class Number
     }
 
     /**
+     * Indicates if this number is greater or equal compared to the provided one
+     *
+     * @param self $number
+     *
+     * @return bool
+     */
+    public function isGreaterOrEqualThan(self $number)
+    {
+        return (0 <= (new Operation\Comparison())->compare($this, $number));
+    }
+
+    /**
      * Indicates if this number is greater than the provided one
      *
      * @param self $number
@@ -285,6 +328,18 @@ class Number
     public function isLowerThan(self $number)
     {
         return (-1 === (new Operation\Comparison())->compare($this, $number));
+    }
+
+    /**
+     * Indicates if this number is lower or equal compared to the provided one
+     *
+     * @param self $number
+     *
+     * @return bool
+     */
+    public function isLowerOrEqualThan(self $number)
+    {
+        return (0 >= (new Operation\Comparison())->compare($this, $number));
     }
 
     /**
@@ -337,6 +392,18 @@ class Number
     }
 
     /**
+     * Creates a new copy of this number multiplied by 10^$exponent
+     *
+     * @param int $exponent
+     *
+     * @return static
+     */
+    public function toMagnitude($exponent)
+    {
+        return (new Operation\MagnitudeChange())->compute($this, $exponent);
+    }
+
+    /**
      * Initializes the number using a string
      *
      * @param string $number
@@ -345,7 +412,7 @@ class Number
     {
         if (!preg_match("/^(?<sign>[-+])?(?<integerPart>\d+)(?:\.(?<fractionalPart>\d+))?$/", $number, $parts)) {
             throw new \InvalidArgumentException(
-                sprintf('"%s" cannot be interpreted as a number', $number)
+                sprintf('"%s" cannot be interpreted as a number', print_r($number, true))
             );
         }
 
@@ -398,6 +465,36 @@ class Number
         if ('' === $this->coefficient) {
             $this->exponent = 0;
             $this->coefficient = '0';
+            return;
+        }
+
+        $this->removeTrailingZeroesIfNeeded();
+    }
+
+    /**
+     * Removes trailing zeroes from the fractional part and adjusts the exponent accordingly
+     */
+    private function removeTrailingZeroesIfNeeded()
+    {
+        $exponent = $this->getExponent();
+        $coefficient = $this->getCoefficient();
+
+        // trim trailing zeroes from the fractional part
+        // for example 1000e-1 => 100.0
+        if (0 < $exponent && '0' === substr($coefficient, -1)) {
+            $fractionalPart = $this->getFractionalPart();
+            $trailingZeroesToRemove = 0;
+            for ($i = $exponent - 1; $i >= 0; $i--) {
+                if ('0' !== $fractionalPart[$i]) {
+                    break;
+                }
+                $trailingZeroesToRemove++;
+            }
+
+            if ($trailingZeroesToRemove > 0) {
+                $this->coefficient = substr($coefficient, 0, -$trailingZeroesToRemove);
+                $this->exponent = $exponent - $trailingZeroesToRemove;
+            }
         }
     }
 }
