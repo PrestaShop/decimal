@@ -18,7 +18,7 @@ class MagnitudeChangeTest extends \PHPUnit_Framework_TestCase
      * Given a decimal number
      * When changing its magnitude to a specific exponent
      * Then we should get the result of multiplying it by 10^exponent
-     * (Same as shifting the comma to the left or to the right by "exponent" characters)
+     * (Same as shifting the decimal dot to the left or to the right by "exponent" characters)
      *
      * @param string $number
      * @param int $exponent

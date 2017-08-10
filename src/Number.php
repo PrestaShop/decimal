@@ -466,7 +466,7 @@ class Number
     }
 
     /**
-     * Removes trailing zeroes from the fractional part and adjusts the exponent acorrdingly
+     * Removes trailing zeroes from the fractional part and adjusts the exponent accordingly
      */
     private function removeTrailingZeroesIfNeeded()
     {

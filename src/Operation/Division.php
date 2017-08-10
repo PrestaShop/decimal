@@ -101,7 +101,7 @@ class Division
         $maxPrecision = max($aPrecision, $bPrecision);
 
         if ($maxPrecision > 0) {
-            // multiply $a and $b by 10^(number of decimal places of b)
+            // make $a and $b integers by multiplying both by 10^(maximum number of decimals)
             $a = $a->toMagnitude($maxPrecision);
             $b = $b->toMagnitude($maxPrecision);
         }
@@ -112,7 +112,7 @@ class Division
     }
 
     /**
-     * Computes the division between to integer DecimalNumbers
+     * Computes the division between two integer DecimalNumbers
      *
      * @param DecimalNumber $a Dividend
      * @param DecimalNumber $b Divisor
