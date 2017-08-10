@@ -276,7 +276,13 @@ class Number
     }
 
     /**
-     * Returns the computed result of dividing this number by another one, with up to $precision number of decimals
+     * Returns the computed result of dividing this number by another one, with up to $precision number of decimals.
+     *
+     * A target maximum precision is required in order to handle potential infinite number of decimals
+     * (e.g. 1/3 = 0.3333333...).
+     *
+     * If the division yields more decimal positions than the requested precision,
+     * the remaining decimals are truncated, with **no rounding**.
      *
      * @param self $divisor
      * @param int $precision [optional] By default, up to Operation\Division::DEFAULT_PRECISION number of decimals.

@@ -12,14 +12,20 @@ use PrestaShop\Decimal\Exception\DivisionByZeroException;
 use PrestaShop\Decimal\Number as DecimalNumber;
 
 /**
- * Computes the division between two decimal numbers
+ * Computes the division between two decimal numbers.
  */
 class Division
 {
     const DEFAULT_PRECISION = 6;
 
     /**
-     * Performs the division
+     * Performs the division.
+     *
+     * A target maximum precision is required in order to handle potential infinite number of decimals
+     * (e.g. 1/3 = 0.3333333...).
+     *
+     * If the division yields more decimal positions than the requested precision,
+     * the remaining decimals are truncated, with **no rounding**.
      *
      * @param DecimalNumber $a Dividend
      * @param DecimalNumber $b Divisor
