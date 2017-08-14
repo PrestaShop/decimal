@@ -191,24 +191,76 @@ class Number
     }
 
     /**
-     * Returns the number as a string, rounded to a specified precision
-     * @param $precision
-     * @param string $roundingMode
+     * Returns the number as a string, with exactly $precision decimals
+     *
+     * Example:
+     * ```
+     * $n = new Number('123.4560');
+     * (string) $n->round(1); // '123.4'
+     * (string) $n->round(2); // '123.45'
+     * (string) $n->round(3); // '123.456'
+     * (string) $n->round(4); // '123.4560' (trailing zeroes are added)
+     * (string) $n->round(5); // '123.45600' (trailing zeroes are added)
+     * ```
+     *
+     * @param int $precision Exact number of desired decimals
+     * @param string $roundingMode [default=Rounding::ROUND_TRUNCATE] Rounding algorithm
      *
      * @return string
      */
     public function toPrecision($precision, $roundingMode = Rounding::ROUND_TRUNCATE)
     {
-        if ($precision > $this->getPrecision()) {
+        $currentPrecision = $this->getPrecision();
+
+        if ($precision === $currentPrecision) {
+            return (string) $this;
+        }
+
+        $return = $this;
+
+        if ($precision < $currentPrecision) {
+            $return = (new Operation\Rounding())->compute($this, $precision, $roundingMode);
+        }
+
+        if ($precision > $return->getPrecision()) {
             return (
-                $this->getSign()
-                . $this->getIntegerPart()
-                . '.'
-                . str_pad($this->getFractionalPart(), $precision, '0')
+                $return->getSign()
+                .$return->getIntegerPart()
+                .'.'
+                .str_pad($return->getFractionalPart(), $precision, '0')
             );
         }
 
-        return (new Operation\Rounding())->compute($this, $precision, $roundingMode);
+        return (string) $return;
+    }
+
+    /**
+     * Returns the number as a string, with up to $maxDecimals significant digits.
+     *
+     * Example:
+     * ```
+     * $n = new Number('123.4560');
+     * (string) $n->round(1); // '123.4'
+     * (string) $n->round(2); // '123.45'
+     * (string) $n->round(3); // '123.456'
+     * (string) $n->round(4); // '123.456' (does not add trailing zeroes)
+     * (string) $n->round(5); // '123.456' (does not add trailing zeroes)
+     * ```
+     *
+     * @param int $maxDecimals Maximum number of decimals
+     * @param string $roundingMode [default=Rounding::ROUND_TRUNCATE] Rounding algorithm
+     *
+     * @return string
+     */
+    public function round($maxDecimals, $roundingMode = Rounding::ROUND_TRUNCATE)
+    {
+        $currentPrecision = $this->getPrecision();
+
+        if ($maxDecimals < $currentPrecision) {
+            return (string) (new Operation\Rounding())->compute($this, $maxDecimals, $roundingMode);
+        }
+
+        return (string) $this;
     }
 
     /**
