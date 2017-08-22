@@ -114,12 +114,34 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      * @param string $mode Rounding mode
      * @param string $expected Expected result
      *
-     * @dataProvider provideRoundingTestCases
+     * @dataProvider providePrecisionTestCases
      */
-    public function testPrecisionRounding($number, $precision, $mode, $expected)
+    public function testPrecision($number, $precision, $mode, $expected)
     {
         $decimalNumber = new DecimalNumber($number);
         $this->assertSame($expected, (string) $decimalNumber->toPrecision($precision, $mode));
+    }
+
+    /**
+     * Given a DecimalNumber constructed with a valid number
+     * When rounding it to a specific precision, using a specific rounding mode
+     * The returned string should match the expectation
+     *
+     * @param string $number
+     * @param int $precision DecimalNumber of decimal characters
+     * @param string $mode Rounding mode
+     * @param string $expected Expected result
+     *
+     * @dataProvider provideRoundingTestCases
+     */
+    public function testRounding($number, $precision, $mode, $expected)
+    {
+        $decimalNumber = new DecimalNumber($number);
+        $this->assertSame(
+            $expected,
+            (string) $decimalNumber->round($precision, $mode),
+            "Failed to assert that round $number to $precision decimals = $expected"
+        );
     }
 
     /**
@@ -136,7 +158,11 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     public function testItExtendsPrecisionAsNeeded($number, $precision, $expected)
     {
         $decimalNumber = new DecimalNumber($number);
-        $this->assertSame($expected, (string) $decimalNumber->toPrecision($precision));
+        $this->assertSame(
+            $expected,
+            (string) $decimalNumber->toPrecision($precision),
+            "Failed to assert that fixing $number to $precision decimals = $expected"
+        );
     }
 
     /**
@@ -365,6 +391,50 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     public function provideRoundingTestCases()
     {
         return [
+            'truncate 0'        => ['1.23456789', 0, Rounding::ROUND_TRUNCATE, '1'],
+            'truncate 1'        => ['1.23456789', 1, Rounding::ROUND_TRUNCATE, '1.2'],
+            'truncate 2'        => ['1.23456789', 2, Rounding::ROUND_TRUNCATE, '1.23'],
+            'truncate 3'        => ['1.23456789', 3, Rounding::ROUND_TRUNCATE, '1.234'],
+            'truncate 4'        => ['1.23456789', 4, Rounding::ROUND_TRUNCATE, '1.2345'],
+            'truncate 5'        => ['1.23456789', 5, Rounding::ROUND_TRUNCATE, '1.23456'],
+            'truncate 6'        => ['1.23456789', 6, Rounding::ROUND_TRUNCATE, '1.234567'],
+            'truncate 7'        => ['1.23456789', 7, Rounding::ROUND_TRUNCATE, '1.2345678'],
+            'truncate 8'        => ['1.23456789', 8, Rounding::ROUND_TRUNCATE, '1.23456789'],
+            // does not add trailing zeroes
+            'truncate 9'        => ['1.23456789', 9, Rounding::ROUND_TRUNCATE, '1.23456789'],
+            'truncate 10'       => ['1.23456789', 10, Rounding::ROUND_TRUNCATE, '1.23456789'],
+            'truncate zeroes 1' => ['1.00000001', 3, Rounding::ROUND_TRUNCATE, '1'],
+            'truncate zeroes 2' => ['1.00000001', 9, Rounding::ROUND_TRUNCATE, '1.00000001'],
+            'ceil 0'            => ['1.23456789', 0, Rounding::ROUND_CEIL, '2'],
+            'ceil 1'            => ['1.23456789', 1, Rounding::ROUND_CEIL, '1.3'],
+            'ceil 2'            => ['1.23456789', 2, Rounding::ROUND_CEIL, '1.24'],
+            'ceil 3'            => ['1.23456789', 3, Rounding::ROUND_CEIL, '1.235'],
+            'ceil 4'            => ['1.23456789', 4, Rounding::ROUND_CEIL, '1.2346'],
+            'ceil 5'            => ['1.23456789', 5, Rounding::ROUND_CEIL, '1.23457'],
+            'ceil 6'            => ['1.23456789', 6, Rounding::ROUND_CEIL, '1.234568'],
+            'ceil 7'            => ['1.23456789', 7, Rounding::ROUND_CEIL, '1.2345679'],
+            'ceil 8'            => ['1.23456789', 8, Rounding::ROUND_CEIL, '1.23456789'],
+            // does not add trailing zeroes
+            'ceil 9'            => ['1.23456789', 9, Rounding::ROUND_CEIL, '1.23456789'],
+            'ceil 10'           => ['1.23456789', 10, Rounding::ROUND_CEIL, '1.23456789'],
+            'round half up 0'   => ['1.23456789', 0, Rounding::ROUND_HALF_UP, '1'],
+            'round half up 1'   => ['1.23456789', 1, Rounding::ROUND_HALF_UP, '1.2'],
+            'round half up 2'   => ['1.23456789', 2, Rounding::ROUND_HALF_UP, '1.23'],
+            'round half up 3'   => ['1.23456789', 3, Rounding::ROUND_HALF_UP, '1.235'],
+            'round half up 4'   => ['1.23456789', 4, Rounding::ROUND_HALF_UP, '1.2346'],
+            'round half up 5'   => ['1.23456789', 5, Rounding::ROUND_HALF_UP, '1.23457'],
+            'round half up 6'   => ['1.23456789', 6, Rounding::ROUND_HALF_UP, '1.234568'],
+            'round half up 7'   => ['1.23456789', 7, Rounding::ROUND_HALF_UP, '1.2345679'],
+            'round half up 8'   => ['1.23456789', 8, Rounding::ROUND_HALF_UP, '1.23456789'],
+            // does not add trailing zeroes
+            'round half up 9'   => ['1.23456789', 9, Rounding::ROUND_HALF_UP, '1.23456789'],
+            'round half up 10'  => ['1.23456789', 10, Rounding::ROUND_HALF_UP, '1.23456789'],
+        ];
+    }
+
+    public function providePrecisionTestCases()
+    {
+        return [
             'truncate 0'  => ['1.23456789', 0, Rounding::ROUND_TRUNCATE, '1'],
             'truncate 1'  => ['1.23456789', 1, Rounding::ROUND_TRUNCATE, '1.2'],
             'truncate 2'  => ['1.23456789', 2, Rounding::ROUND_TRUNCATE, '1.23'],
@@ -374,8 +444,12 @@ class NumberTest extends \PHPUnit_Framework_TestCase
             'truncate 6'  => ['1.23456789', 6, Rounding::ROUND_TRUNCATE, '1.234567'],
             'truncate 7'  => ['1.23456789', 7, Rounding::ROUND_TRUNCATE, '1.2345678'],
             'truncate 8'  => ['1.23456789', 8, Rounding::ROUND_TRUNCATE, '1.23456789'],
+            // adds trailing zeroes
             'truncate 9'  => ['1.23456789', 9, Rounding::ROUND_TRUNCATE, '1.234567890'],
             'truncate 10' => ['1.23456789', 10, Rounding::ROUND_TRUNCATE, '1.2345678900'],
+            // keeps trailing zeroes
+            'truncate zeroes 1' => ['1.00000001', 3, Rounding::ROUND_TRUNCATE, '1.000'],
+            'truncate zeroes 2' => ['1.00000001', 8, Rounding::ROUND_TRUNCATE, '1.00000001'],
             'ceil 0'      => ['1.23456789', 0, Rounding::ROUND_CEIL, '2'],
             'ceil 1'      => ['1.23456789', 1, Rounding::ROUND_CEIL, '1.3'],
             'ceil 2'      => ['1.23456789', 2, Rounding::ROUND_CEIL, '1.24'],
@@ -385,6 +459,8 @@ class NumberTest extends \PHPUnit_Framework_TestCase
             'ceil 6'      => ['1.23456789', 6, Rounding::ROUND_CEIL, '1.234568'],
             'ceil 7'      => ['1.23456789', 7, Rounding::ROUND_CEIL, '1.2345679'],
             'ceil 8'      => ['1.23456789', 8, Rounding::ROUND_CEIL, '1.23456789'],
+            'ceil zeroes' => ['1.00000001', 7, Rounding::ROUND_CEIL, '1.0000001'],
+            // adds trailing zeroes
             'ceil 9'      => ['1.23456789', 9, Rounding::ROUND_CEIL, '1.234567890'],
             'ceil 10'     => ['1.23456789', 10, Rounding::ROUND_CEIL, '1.2345678900'],
             'round half up 0'  => ['1.23456789', 0, Rounding::ROUND_HALF_UP, '1'],
@@ -396,6 +472,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
             'round half up 6'  => ['1.23456789', 6, Rounding::ROUND_HALF_UP, '1.234568'],
             'round half up 7'  => ['1.23456789', 7, Rounding::ROUND_HALF_UP, '1.2345679'],
             'round half up 8'  => ['1.23456789', 8, Rounding::ROUND_HALF_UP, '1.23456789'],
+            // adds trailing zeroes
             'round half up 9'  => ['1.23456789', 9, Rounding::ROUND_HALF_UP, '1.234567890'],
             'round half up 10' => ['1.23456789', 10, Rounding::ROUND_HALF_UP, '1.2345678900'],
         ];
