@@ -69,10 +69,12 @@ class Number
         }
 
         if (null === $exponent) {
-            $this->initFromString($number);
-        } else {
-            $this->initFromScientificNotation($number, $exponent);
+            $decimalNumber = Builder::parseNumber($number);
+            $number = $decimalNumber->getSign() . $decimalNumber->getCoefficient();
+            $exponent = $decimalNumber->getExponent();
         }
+
+        $this->initFromScientificNotation($number, $exponent);
 
         if ('0' === $this->coefficient) {
             // make sure the sign is always positive for zero
@@ -453,39 +455,6 @@ class Number
     public function toMagnitude($exponent)
     {
         return (new Operation\MagnitudeChange())->compute($this, $exponent);
-    }
-
-    /**
-     * Initializes the number using a string
-     *
-     * @param string $number
-     */
-    private function initFromString($number)
-    {
-        if (!preg_match("/^(?<sign>[-+])?(?<integerPart>\d+)(?:\.(?<fractionalPart>\d+))?$/", $number, $parts)) {
-            throw new \InvalidArgumentException(
-                sprintf('"%s" cannot be interpreted as a number', print_r($number, true))
-            );
-        }
-
-        $this->isNegative = ('-' === $parts['sign']);
-
-        // extract the integer part and remove leading zeroes and plus sign
-        $integerPart = ltrim($parts['integerPart'], '0');
-
-        $fractionalPart = '';
-        if (array_key_exists('fractionalPart', $parts)) {
-            // extract the fractional part and remove trailing zeroes
-            $fractionalPart = rtrim($parts['fractionalPart'], '0');
-        }
-
-        $this->exponent = strlen($fractionalPart);
-        $this->coefficient = $integerPart . $fractionalPart;
-
-        // when coefficient is '0' or a sequence of '0'
-        if ('' === $this->coefficient) {
-            $this->coefficient = '0';
-        }
     }
 
     /**
