@@ -54,11 +54,11 @@ class Number
      * (string) new Number('123456', 6); // -> '0.123456'
      * ```
      *
-     * Note: exponents are always positive.
+     * Note: decimal positions must always be a positive number.
      *
      * @param string $number Number or coefficient
-     * @param int $exponent [default=null] If provided, the number is considered a coefficient of
-     * the scientific notation.
+     * @param int $exponent [default=null] If provided, the number can be considered as the negative
+     * exponent of the scientific notation, or the number of fractional digits.
      */
     public function __construct($number, $exponent = null)
     {
