@@ -8,7 +8,7 @@
 
 namespace PrestaShop\Decimal\tests\Unit\Core\Decimal;
 
-use PrestaShop\Decimal\Number as DecimalNumber;
+use PrestaShop\Decimal\Number;
 use PrestaShop\Decimal\Operation\Rounding;
 
 class NumberTest extends \PHPUnit_Framework_TestCase
@@ -16,7 +16,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Given a valid number in a string
-     * When constructing a DecimalNumber with it
+     * When constructing a Number with it
      * Then it should interpret the sign, decimal and fractional parts correctly
      *
      * @param string $number
@@ -29,7 +29,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItInterpretsNumbers($number, $expectedSign, $expectedInteger, $expectedFraction, $expectedStr)
     {
-        $decimalNumber = new DecimalNumber($number);
+        $decimalNumber = new Number($number);
         $this->assertSame($expectedSign, $decimalNumber->getSign(), 'The sign is not as expected');
         $this->assertSame($expectedInteger, $decimalNumber->getIntegerPart(), 'The integer part is not as expected');
         $this->assertSame(
@@ -42,7 +42,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Given a valid coefficient and exponent
-     * When constructing a DecimalNumber with them
+     * When constructing a Number with them
      * Then it should convert them to the expected string
      *
      * @param string $coefficient
@@ -53,13 +53,13 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItInterpretsExponents($coefficient, $exponent, $expectedStr)
     {
-        $decimalNumber = new DecimalNumber($coefficient, $exponent);
+        $decimalNumber = new Number($coefficient, $exponent);
         $this->assertSame($expectedStr, (string) $decimalNumber);
     }
 
     /**
      * Given an invalid number
-     * When constructing a DecimalNumber with it
+     * When constructing a Number with it
      * Then an InvalidArgumentException should be thrown
      *
      * @param mixed $number
@@ -69,12 +69,12 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItThrowsExceptionWhenGivenInvalidNumber($number)
     {
-        new DecimalNumber($number);
+        new Number($number);
     }
 
     /**
      * Given an invalid coefficient or exponent
-     * When constructing a DecimalNumber with them
+     * When constructing a Number with them
      * Then an InvalidArgumentException should be thrown
      *
      * @param mixed $coefficient
@@ -85,11 +85,11 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItThrowsExceptionWhenGivenInvalidCoefficientOrExponent($coefficient, $exponent)
     {
-        new DecimalNumber($coefficient, $exponent);
+        new Number($coefficient, $exponent);
     }
 
     /**
-     * Given a DecimalNumber constructed with a valid number
+     * Given a Number constructed with a valid number
      * When casting the number to string
      * The resulting string should not include leading nor trailing zeroes
      *
@@ -100,17 +100,17 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItDropsNonSignificantDigits($number, $expected)
     {
-        $decimalNumber = new DecimalNumber($number);
+        $decimalNumber = new Number($number);
         $this->assertSame($expected, (string) $decimalNumber);
     }
 
     /**
-     * Given a DecimalNumber constructed with a valid number
+     * Given a Number constructed with a valid number
      * When rounding it to a specific precision, using a specific rounding mode
      * The returned string should match the expectation
      *
      * @param string $number
-     * @param int $precision DecimalNumber of decimal characters
+     * @param int $precision Number of decimal characters
      * @param string $mode Rounding mode
      * @param string $expected Expected result
      *
@@ -118,17 +118,17 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrecision($number, $precision, $mode, $expected)
     {
-        $decimalNumber = new DecimalNumber($number);
+        $decimalNumber = new Number($number);
         $this->assertSame($expected, (string) $decimalNumber->toPrecision($precision, $mode));
     }
 
     /**
-     * Given a DecimalNumber constructed with a valid number
+     * Given a Number constructed with a valid number
      * When rounding it to a specific precision, using a specific rounding mode
      * The returned string should match the expectation
      *
      * @param string $number
-     * @param int $precision DecimalNumber of decimal characters
+     * @param int $precision Number of decimal characters
      * @param string $mode Rounding mode
      * @param string $expected Expected result
      *
@@ -136,7 +136,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testRounding($number, $precision, $mode, $expected)
     {
-        $decimalNumber = new DecimalNumber($number);
+        $decimalNumber = new Number($number);
         $this->assertSame(
             $expected,
             (string) $decimalNumber->round($precision, $mode),
@@ -145,7 +145,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Given a DecimalNumber constructed with a valid number
+     * Given a Number constructed with a valid number
      * When rounding it to a greater precision than its current one
      * The returned string should have been padded with the proper number of trailing zeroes
      *
@@ -157,7 +157,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItExtendsPrecisionAsNeeded($number, $precision, $expected)
     {
-        $decimalNumber = new DecimalNumber($number);
+        $decimalNumber = new Number($number);
         $this->assertSame(
             $expected,
             (string) $decimalNumber->toPrecision($precision),
@@ -166,12 +166,12 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Given two instances of DecimalNumber
+     * Given two instances of Number
      * When comparing the first one with the second one
      * Then the result should be true if the instances are equal, and false otherwise
      *
-     * @param DecimalNumber $number1
-     * @param DecimalNumber $number2
+     * @param Number $number1
+     * @param Number $number2
      * @param string $expected
      *
      * @dataProvider provideEqualityTestCases
@@ -199,8 +199,8 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     public function testIsAbleToTellIfGreaterThan($number1, $number2, $expected)
     {
         $shouldBeGreater = (1 === $expected);
-        $number1 = new DecimalNumber($number1);
-        $number2 = new DecimalNumber($number2);
+        $number1 = new Number($number1);
+        $number2 = new Number($number2);
 
         $this->assertSame($number1->isGreaterThan($number2), $shouldBeGreater);
     }
@@ -219,8 +219,8 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     public function testIsAbleToTellIfLowerThan($number1, $number2, $expected)
     {
         $shouldBeLower = (-1 === $expected);
-        $number1 = new DecimalNumber($number1);
-        $number2 = new DecimalNumber($number2);
+        $number1 = new Number($number1);
+        $number2 = new Number($number2);
 
         $this->assertSame($number1->isLowerThan($number2), $shouldBeLower);
     }
@@ -237,7 +237,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItTransformsPositiveToNegative($number, $expected)
     {
-        $number = (new DecimalNumber($number))
+        $number = (new Number($number))
             ->toNegative();
 
         $this->assertSame((string) $number, $expected);
@@ -255,7 +255,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItTransformsNegativeToPositive($number, $expected)
     {
-        $number = (new DecimalNumber($number))
+        $number = (new Number($number))
             ->toPositive();
 
         $this->assertSame((string) $number, $expected);
@@ -264,7 +264,13 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     public function provideValidNumbers()
     {
         return [
-            ['0.0', '', '0', '0', '0'],
+            [
+                'number'           => '0.0',
+                'expectedSign'     => '',
+                'expectedInteger'  => '0',
+                'expectedFraction' => '0',
+                'expectedStr'      => '0'
+            ],
             ['00000.0', '', '0', '0', '0'],
             ['0.00000', '', '0', '0', '0'],
             ['00000.00000', '', '0', '0', '0'],
@@ -278,20 +284,41 @@ class NumberTest extends \PHPUnit_Framework_TestCase
             ['01.0', '', '1', '0', '1'],
             ['01.01', '', '1', '01', '1.01'],
             ['10.2345', '', '10', '2345', '10.2345'],
-            [
-                '123917549171231.12451028401824',
-                '',
-                '123917549171231',
-                '12451028401824',
-                '123917549171231.12451028401824'
-            ],
-            ['+12351.49273592', '', '12351', '49273592', '12351.49273592'],
-            ['-12351.49273592', '-', '12351', '49273592', '-12351.49273592'],
-            ['-12351', '-', '12351', '0', '-12351'],
-            ['-0', '', '0', '0', '0'],
-            ['-01', '-', '1', '0', '-1'],
-            ['-01.0', '-', '1', '0', '-1'],
-            ['-01.01', '-', '1', '01', '-1.01'],
+            '123917549171231.12451028401824' => ['123917549171231.12451028401824', '', '123917549171231', '12451028401824', '123917549171231.12451028401824'],
+            '+12351.49273592' => ['+12351.49273592', '', '12351', '49273592', '12351.49273592'],
+            '-12351.49273592' => ['-12351.49273592', '-', '12351', '49273592', '-12351.49273592'],
+            '-12351' => ['-12351', '-', '12351', '0', '-12351'],
+            '-0'     => ['-0', '', '0', '0', '0'],
+            '-01'    => ['-01', '-', '1', '0', '-1'],
+            '-01.0'  => ['-01.0', '-', '1', '0', '-1'],
+            '-01.01' => ['-01.01', '-', '1', '01', '-1.01'],
+            '0.1e-1' => ['0.1e-1', '', '0', '01', '0.01'],
+            '0.1e-2' => ['0.1e-2', '', '0', '001', '0.001'],
+            '0.1e-3' => ['0.1e-3', '', '0', '0001', '0.0001'],
+            '0.1e-4' => ['0.1e-4', '', '0', '00001', '0.00001'],
+            '0.1e-5' => ['0.1e-5', '', '0', '000001', '0.000001'],
+            '0.01e-1' => ['0.01e-1', '', '0', '001', '0.001'],
+            '123.01e-1' => ['123.01e-1', '', '12', '301', '12.301'],
+            '12301e-4' => ['12301e-4', '', '1', '2301', '1.2301'],
+            '12301e-5' => ['12301e-5', '', '0', '12301', '0.12301'],
+            '12301e-6' => ['12301e-6', '', '0', '012301', '0.012301'],
+            '12301e-7' => ['12301e-7', '', '0', '0012301', '0.0012301'],
+            '12301e-10' => ['12301e-10', '', '0', '0000012301', '0.0000012301'],
+            '12301e+3' => ['12301e+3', '', '12301000', '0', '12301000'],
+            '0.1e+1' => ['0.1e+1', '', '1', '0', '1'],
+            '0.1e+2' => ['0.1e+2', '', '10', '0', '10'],
+            '0.1e+3' => ['0.1e+3', '', '100', '0', '100'],
+            '0.1e+4' => ['0.1e+4', '', '1000', '0', '1000'],
+            '0.1e+5' => ['0.1e+5', '', '10000', '0', '10000'],
+            '123.01e+1' => ['123.01e+1', '', '1230', '1', '1230.1'],
+            '123.01e+5' => ['123.01e+5', '', '12301000', '0', '12301000'],
+            '1.0E+15' => ['1.0E+15', '', '1000000000000000', '0', '1000000000000000'],
+            '-123.0456E+15' => ['-123.0456E+15', '-', '123045600000000000', '0', '-123045600000000000'],
+            '-123.04560E+15' => ['-123.04560E+15', '-', '123045600000000000', '0', '-123045600000000000'],
+            '.1e+2' => ['.1e+2', '', '10', '0', '10'],
+            '-.1e+2' => ['-.1e+2', '-', '10', '0', '-10'],
+            '+.1e+2' => ['+.1e+2', '', '10', '0', '10'],
+            '.01' => ['.01', '', '0', '01', '0.01'],
         ];
     }
 
@@ -340,6 +367,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
             'NaN with comma' => ['asd,foo'],
             'array' => [array()],
             'null' => [null],
+            '1.' => ['1.'],
         ];
     }
 
@@ -482,43 +510,43 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                new DecimalNumber('0'),
-                new DecimalNumber('0', 5),
+                new Number('0'),
+                new Number('0', 5),
                 true
             ],
             [
-                new DecimalNumber('0.1234'),
-                new DecimalNumber('1234', 4),
+                new Number('0.1234'),
+                new Number('1234', 4),
                 true
             ],
             [
-                new DecimalNumber('1234.01'),
-                new DecimalNumber('123401', 2),
+                new Number('1234.01'),
+                new Number('123401', 2),
                 true
             ],
             [
-                new DecimalNumber('-0'),
-                new DecimalNumber('0'),
+                new Number('-0'),
+                new Number('0'),
                 true
             ],
             [
-                new DecimalNumber('-1234.01'),
-                new DecimalNumber('-123401', 2),
+                new Number('-1234.01'),
+                new Number('-123401', 2),
                 true
             ],
             [
-                new DecimalNumber('-1234.01'),
-                new DecimalNumber('123401', 2),
+                new Number('-1234.01'),
+                new Number('123401', 2),
                 false
             ],
             [
-                new DecimalNumber('1234.01'),
-                new DecimalNumber('-123401', 2),
+                new Number('1234.01'),
+                new Number('-123401', 2),
                 false
             ],
             [
-                new DecimalNumber('1234.01'),
-                new DecimalNumber('-1234.01'),
+                new Number('1234.01'),
+                new Number('-1234.01'),
                 false
             ],
         ];
