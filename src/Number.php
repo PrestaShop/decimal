@@ -358,7 +358,7 @@ class Number
      */
     public function equalsZero()
     {
-        return "0" == $this->getCoefficient();
+        return '0' == $this->getCoefficient();
     }
 
     /**
