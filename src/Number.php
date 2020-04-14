@@ -349,6 +349,16 @@ class Number
     }
 
     /**
+     * Indicates if this number equals zero
+     *
+     * @return bool
+     */
+    public function equalsZero()
+    {
+        return "0" == $this->getCoefficient();
+    }
+
+    /**
      * Indicates if this number is greater than the provided one
      *
      * @param self $number
@@ -361,6 +371,26 @@ class Number
     }
 
     /**
+     * Indicates if this number is greater than zero
+     *
+     * @return bool
+     */
+    public function isGreaterThanZero()
+    {
+        return $this->isPositive() && !$this->equalsZero();
+    }
+
+    /**
+     * Indicates if this number is greater or equal than zero
+     *
+     * @return bool
+     */
+    public function isGreaterOrEqualThanZero()
+    {
+        return $this->isPositive();
+    }
+
+    /**
      * Indicates if this number is greater or equal compared to the provided one
      *
      * @param self $number
@@ -370,6 +400,26 @@ class Number
     public function isGreaterOrEqualThan(self $number)
     {
         return (0 <= (new Operation\Comparison())->compare($this, $number));
+    }
+
+    /**
+     * Indicates if this number is lower than zero
+     *
+     * @return bool
+     */
+    public function isLowerThanZero()
+    {
+        return $this->isNegative() && !$this->equalsZero();
+    }
+
+    /**
+     * Indicates if this number is lower or equal than zero
+     *
+     * @return bool
+     */
+    public function isLowerOrEqualThanZero()
+    {
+        return $this->isNegative() || $this->equalsZero();
     }
 
     /**
