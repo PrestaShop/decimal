@@ -8,11 +8,22 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
+use PHPUnit_Framework_TestCase;
 use PrestaShop\Decimal\Number;
 use PrestaShop\Decimal\Operation\Comparison;
 
-class ComparisonTest extends \PHPUnit_Framework_TestCase
+class ComparisonTest extends PHPUnit_Framework_TestCase
 {
+
+    /**
+     * @var Number
+     */
+    private static $zero;
+
+    public static function setUpBeforeClass()
+    {
+        static::$zero = new Number('0');
+    }
 
     /**
      * Given two numbers
@@ -82,10 +93,18 @@ class ComparisonTest extends \PHPUnit_Framework_TestCase
     public function testItDetectsEqualsZero($number, $expected)
     {
         $n = new Number($number);
+
         $this->assertSame(
             $expected,
             $n->equalsZero(),
             sprintf("Failed to assert that %s %s equal to zero", $number, $this->getIsVerb($expected))
+        );
+
+        // double check
+        $this->assertSame(
+            $expected,
+            $n->equals(static::$zero),
+            sprintf("Failed to assert that %s %s equal to Number zero", $number, $this->getIsVerb($expected))
         );
     }
 
@@ -121,10 +140,18 @@ class ComparisonTest extends \PHPUnit_Framework_TestCase
     public function testItDetectsGreaterThanZero($number, $expected)
     {
         $n = new Number($number);
+
         $this->assertSame(
             $expected,
             $n->isGreaterThanZero(),
             sprintf("Failed to assert that %s %s greater than zero", $number, $this->getIsVerb($expected))
+        );
+
+        // double check
+        $this->assertSame(
+            $expected,
+            $n->isGreaterThan(static::$zero),
+            sprintf("Failed to assert that %s %s grater to Number zero", $number, $this->getIsVerb($expected))
         );
     }
 
@@ -160,10 +187,18 @@ class ComparisonTest extends \PHPUnit_Framework_TestCase
     public function testItDetectsGreaterOrEqualThanZero($number, $expected)
     {
         $n = new Number($number);
+
         $this->assertSame(
             $expected,
             $n->isGreaterOrEqualThanZero(),
             sprintf("Failed to assert that %s %s greater or equal than zero", $number, $this->getIsVerb($expected))
+        );
+
+        // double check
+        $this->assertSame(
+            $expected,
+            $n->isGreaterOrEqualThan(static::$zero),
+            sprintf("Failed to assert that %s %s greater or equal to Number zero", $number, $this->getIsVerb($expected))
         );
     }
 
@@ -199,10 +234,18 @@ class ComparisonTest extends \PHPUnit_Framework_TestCase
     public function testItDetectsLowerThanZero($number, $expected)
     {
         $n = new Number($number);
+
         $this->assertSame(
             $expected,
             $n->isLowerThanZero(),
             sprintf("Failed to assert that %s %s lower than zero", $number, $this->getIsVerb($expected))
+        );
+
+        // double check
+        $this->assertSame(
+            $expected,
+            $n->isLowerThan(static::$zero),
+            sprintf("Failed to assert that %s %s lower to Number zero", $number, $this->getIsVerb($expected))
         );
     }
 
@@ -238,10 +281,18 @@ class ComparisonTest extends \PHPUnit_Framework_TestCase
     public function testItDetectsLowerOrEqualThanZero($number, $expected)
     {
         $n = new Number($number);
+
         $this->assertSame(
             $expected,
             $n->isLowerOrEqualThanZero(),
             sprintf("Failed to assert that %s %s lower or equal than zero", $number, $this->getIsVerb($expected))
+        );
+
+        // double check
+        $this->assertSame(
+            $expected,
+            $n->isLowerOrEqualThan(static::$zero),
+            sprintf("Failed to assert that %s %s lower or equal to Number zero", $number, $this->getIsVerb($expected))
         );
     }
 

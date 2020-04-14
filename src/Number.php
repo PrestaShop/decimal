@@ -8,6 +8,7 @@
 
 namespace PrestaShop\Decimal;
 
+use InvalidArgumentException;
 use PrestaShop\Decimal\Operation\Rounding;
 
 /**
@@ -63,7 +64,7 @@ class Number
     public function __construct($number, $exponent = null)
     {
         if (!is_string($number)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Invalid type - expected string, but got (%s) "%s"', gettype($number), print_r($number, true))
             );
         }
@@ -342,6 +343,8 @@ class Number
      * @param int $precision [optional] By default, up to Operation\Division::DEFAULT_PRECISION number of decimals.
      *
      * @return self
+     *
+     * @throws Exception\DivisionByZeroException
      */
     public function dividedBy(self $divisor, $precision = Operation\Division::DEFAULT_PRECISION)
     {
@@ -516,13 +519,13 @@ class Number
     private function initFromScientificNotation($coefficient, $exponent)
     {
         if ($exponent < 0) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Invalid value for exponent. Expected a positive integer or 0, but got "%s"', $coefficient)
             );
         }
 
         if (!preg_match("/^(?<sign>[-+])?(?<integerPart>\d+)$/", $coefficient, $parts)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('"%s" cannot be interpreted as a number', $coefficient)
             );
         }
