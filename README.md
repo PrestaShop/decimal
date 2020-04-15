@@ -129,6 +129,13 @@ $a->isLowerThan($b);           // returns false
 $a->isLowerOrEqualThan($b);    // returns false
 $a->isGreaterThan($b);         // returns true
 $a->isGreaterOrEqualThan($b);  // returns true
+
+// shortcut methods
+$a->equalsZero();               // returns false
+$a->isLowerThanZero();          // returns false 
+$a->isLowerOrEqualThanZero();   // returns false
+$a->isGreaterThanZero();        // returns true
+$a->isGreaterOrEqualThanZero(); // returns true
 ```
 
 ### Fixed precision
