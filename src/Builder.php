@@ -8,7 +8,7 @@
 
 namespace PrestaShop\Decimal;
 
-use PrestaShop\Decimal\Number;
+use PrestaShop\Decimal\DecimalNumber;
 
 
 /**
@@ -32,7 +32,7 @@ class Builder
      *
      * @param string $number
      *
-     * @return Number
+     * @return DecimalNumber
      */
     public static function parseNumber($number)
     {
@@ -78,7 +78,7 @@ class Builder
             }
         }
 
-        return new Number($numberParts['sign'] . $coefficient, $fractionalDigits);
+        return new DecimalNumber($numberParts['sign'] . $coefficient, $fractionalDigits);
     }
 
     /**

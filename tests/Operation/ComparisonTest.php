@@ -9,20 +9,20 @@
 namespace PrestaShop\Decimal\Test\Operation;
 
 use PHPUnit_Framework_TestCase;
-use PrestaShop\Decimal\Number;
+use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Comparison;
 
 class ComparisonTest extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var Number
+     * @var DecimalNumber
      */
     private static $zero;
 
     public static function setUpBeforeClass()
     {
-        static::$zero = new Number('0');
+        static::$zero = new DecimalNumber('0');
     }
 
     /**
@@ -43,8 +43,8 @@ class ComparisonTest extends PHPUnit_Framework_TestCase
     {
         $comparison = new Comparison();
 
-        $result1 = $comparison->compareUsingBcMath(new Number($a), new Number($b));
-        $result2 = $comparison->compareWithoutBcMath(new Number($a), new Number($b));
+        $result1 = $comparison->compareUsingBcMath(new DecimalNumber($a), new DecimalNumber($b));
+        $result2 = $comparison->compareWithoutBcMath(new DecimalNumber($a), new DecimalNumber($b));
 
         $this->assertSame($expected, $result1, "Failed assertion (BC Math)");
         $this->assertSame($expected, $result2, "Failed assertion");
@@ -92,7 +92,7 @@ class ComparisonTest extends PHPUnit_Framework_TestCase
      */
     public function testItDetectsEqualsZero($number, $expected)
     {
-        $n = new Number($number);
+        $n = new DecimalNumber($number);
 
         $this->assertSame(
             $expected,
@@ -139,7 +139,7 @@ class ComparisonTest extends PHPUnit_Framework_TestCase
      */
     public function testItDetectsGreaterThanZero($number, $expected)
     {
-        $n = new Number($number);
+        $n = new DecimalNumber($number);
 
         $this->assertSame(
             $expected,
@@ -186,7 +186,7 @@ class ComparisonTest extends PHPUnit_Framework_TestCase
      */
     public function testItDetectsGreaterOrEqualThanZero($number, $expected)
     {
-        $n = new Number($number);
+        $n = new DecimalNumber($number);
 
         $this->assertSame(
             $expected,
@@ -233,7 +233,7 @@ class ComparisonTest extends PHPUnit_Framework_TestCase
      */
     public function testItDetectsLowerThanZero($number, $expected)
     {
-        $n = new Number($number);
+        $n = new DecimalNumber($number);
 
         $this->assertSame(
             $expected,
@@ -280,7 +280,7 @@ class ComparisonTest extends PHPUnit_Framework_TestCase
      */
     public function testItDetectsLowerOrEqualThanZero($number, $expected)
     {
-        $n = new Number($number);
+        $n = new DecimalNumber($number);
 
         $this->assertSame(
             $expected,
@@ -325,5 +325,4 @@ class ComparisonTest extends PHPUnit_Framework_TestCase
     {
         return ($assertion) ? 'is' : 'is NOT';
     }
-
 }

@@ -9,7 +9,7 @@
 namespace PrestaShop\Decimal\Test\Operation;
 
 use PrestaShop\Decimal\Operation\Rounding;
-use PrestaShop\Decimal\Number;
+use PrestaShop\Decimal\DecimalNumber;
 
 class RoundingTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,7 +23,7 @@ class RoundingTest extends \PHPUnit_Framework_TestCase
      */
     public function testItThrowsExceptionIfRoundingModeIsInvalid()
     {
-        $decimalNumber = new Number('1.2345');
+        $decimalNumber = new DecimalNumber('1.2345');
         $rounding = new Rounding();
 
         $rounding->compute(
@@ -46,7 +46,7 @@ class RoundingTest extends \PHPUnit_Framework_TestCase
      */
     public function testItThrowsExceptionIfPrecisionIsInvalid($precision)
     {
-        $decimalNumber = new Number('1.2345');
+        $decimalNumber = new DecimalNumber('1.2345');
         $rounding = new Rounding();
 
         $rounding->compute(
@@ -189,7 +189,7 @@ class RoundingTest extends \PHPUnit_Framework_TestCase
      */
     public function roundNumber($number, $precision, $mode, $expected)
     {
-        $decimalNumber = new Number($number);
+        $decimalNumber = new DecimalNumber($number);
         $rounding = new Rounding();
 
         $result = $rounding->compute(

@@ -8,7 +8,7 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
-use PrestaShop\Decimal\Number;
+use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Subtraction;
 
 class SubtractionTest extends \PHPUnit_Framework_TestCase
@@ -27,8 +27,8 @@ class SubtractionTest extends \PHPUnit_Framework_TestCase
      */
     public function testItSubtractsNumbers($number1, $number2, $expectedResult)
     {
-        $n1 = new Number($number1);
-        $n2 = new Number($number2);
+        $n1 = new DecimalNumber($number1);
+        $n2 = new DecimalNumber($number2);
 
         $operation = new Subtraction();
         $result1 = $operation->computeUsingBcMath($n1, $n2);

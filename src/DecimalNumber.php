@@ -16,7 +16,7 @@ use PrestaShop\Decimal\Operation\Rounding;
  *
  * Allows for arbitrary precision math operations.
  */
-class Number
+class DecimalNumber
 {
 
     /**
@@ -58,7 +58,7 @@ class Number
      * Note: decimal positions must always be a positive number.
      *
      * @param string $number Number or coefficient
-     * @param int $exponent [default=null] If provided, the number can be considered as the negative
+     * @param int|null $exponent [default=null] If provided, the number can be considered as the negative
      * exponent of the scientific notation, or the number of fractional digits.
      */
     public function __construct($number, $exponent = null)
