@@ -8,7 +8,7 @@
 
 namespace PrestaShop\Decimal\Operation;
 
-use PrestaShop\Decimal\Number as DecimalNumber;
+use PrestaShop\Decimal\DecimalNumber;
 
 /**
  * Computes the addition of two decimal numbers

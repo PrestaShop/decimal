@@ -6,12 +6,12 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  */
 
-namespace PrestaShop\Decimal\tests\Unit\Core\Decimal;
+namespace PrestaShop\Decimal\Test;
 
-use PrestaShop\Decimal\Number;
+use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Rounding;
 
-class NumberTest extends \PHPUnit_Framework_TestCase
+class DecimalNumberTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -29,7 +29,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItInterpretsNumbers($number, $expectedSign, $expectedInteger, $expectedFraction, $expectedStr)
     {
-        $decimalNumber = new Number($number);
+        $decimalNumber = new DecimalNumber($number);
         $this->assertSame($expectedSign, $decimalNumber->getSign(), 'The sign is not as expected');
         $this->assertSame($expectedInteger, $decimalNumber->getIntegerPart(), 'The integer part is not as expected');
         $this->assertSame(
@@ -53,7 +53,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItInterpretsExponents($coefficient, $exponent, $expectedStr)
     {
-        $decimalNumber = new Number($coefficient, $exponent);
+        $decimalNumber = new DecimalNumber($coefficient, $exponent);
         $this->assertSame($expectedStr, (string) $decimalNumber);
     }
 
@@ -69,7 +69,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItThrowsExceptionWhenGivenInvalidNumber($number)
     {
-        new Number($number);
+        new DecimalNumber($number);
     }
 
     /**
@@ -85,7 +85,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItThrowsExceptionWhenGivenInvalidCoefficientOrExponent($coefficient, $exponent)
     {
-        new Number($coefficient, $exponent);
+        new DecimalNumber($coefficient, $exponent);
     }
 
     /**
@@ -100,7 +100,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItDropsNonSignificantDigits($number, $expected)
     {
-        $decimalNumber = new Number($number);
+        $decimalNumber = new DecimalNumber($number);
         $this->assertSame($expected, (string) $decimalNumber);
     }
 
@@ -118,7 +118,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrecision($number, $precision, $mode, $expected)
     {
-        $decimalNumber = new Number($number);
+        $decimalNumber = new DecimalNumber($number);
         $this->assertSame($expected, (string) $decimalNumber->toPrecision($precision, $mode));
     }
 
@@ -136,7 +136,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testRounding($number, $precision, $mode, $expected)
     {
-        $decimalNumber = new Number($number);
+        $decimalNumber = new DecimalNumber($number);
         $this->assertSame(
             $expected,
             (string) $decimalNumber->round($precision, $mode),
@@ -157,7 +157,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItExtendsPrecisionAsNeeded($number, $precision, $expected)
     {
-        $decimalNumber = new Number($number);
+        $decimalNumber = new DecimalNumber($number);
         $this->assertSame(
             $expected,
             (string) $decimalNumber->toPrecision($precision),
@@ -170,8 +170,8 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      * When comparing the first one with the second one
      * Then the result should be true if the instances are equal, and false otherwise
      *
-     * @param Number $number1
-     * @param Number $number2
+     * @param DecimalNumber $number1
+     * @param DecimalNumber $number2
      * @param string $expected
      *
      * @dataProvider provideEqualityTestCases
@@ -199,8 +199,8 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     public function testIsAbleToTellIfGreaterThan($number1, $number2, $expected)
     {
         $shouldBeGreater = (1 === $expected);
-        $number1 = new Number($number1);
-        $number2 = new Number($number2);
+        $number1 = new DecimalNumber($number1);
+        $number2 = new DecimalNumber($number2);
 
         $this->assertSame($number1->isGreaterThan($number2), $shouldBeGreater);
     }
@@ -219,8 +219,8 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     public function testIsAbleToTellIfLowerThan($number1, $number2, $expected)
     {
         $shouldBeLower = (-1 === $expected);
-        $number1 = new Number($number1);
-        $number2 = new Number($number2);
+        $number1 = new DecimalNumber($number1);
+        $number2 = new DecimalNumber($number2);
 
         $this->assertSame($number1->isLowerThan($number2), $shouldBeLower);
     }
@@ -237,7 +237,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItTransformsPositiveToNegative($number, $expected)
     {
-        $number = (new Number($number))
+        $number = (new DecimalNumber($number))
             ->toNegative();
 
         $this->assertSame((string) $number, $expected);
@@ -255,7 +255,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testItTransformsNegativeToPositive($number, $expected)
     {
-        $number = (new Number($number))
+        $number = (new DecimalNumber($number))
             ->toPositive();
 
         $this->assertSame((string) $number, $expected);
@@ -510,43 +510,43 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                new Number('0'),
-                new Number('0', 5),
+                new DecimalNumber('0'),
+                new DecimalNumber('0', 5),
                 true
             ],
             [
-                new Number('0.1234'),
-                new Number('1234', 4),
+                new DecimalNumber('0.1234'),
+                new DecimalNumber('1234', 4),
                 true
             ],
             [
-                new Number('1234.01'),
-                new Number('123401', 2),
+                new DecimalNumber('1234.01'),
+                new DecimalNumber('123401', 2),
                 true
             ],
             [
-                new Number('-0'),
-                new Number('0'),
+                new DecimalNumber('-0'),
+                new DecimalNumber('0'),
                 true
             ],
             [
-                new Number('-1234.01'),
-                new Number('-123401', 2),
+                new DecimalNumber('-1234.01'),
+                new DecimalNumber('-123401', 2),
                 true
             ],
             [
-                new Number('-1234.01'),
-                new Number('123401', 2),
+                new DecimalNumber('-1234.01'),
+                new DecimalNumber('123401', 2),
                 false
             ],
             [
-                new Number('1234.01'),
-                new Number('-123401', 2),
+                new DecimalNumber('1234.01'),
+                new DecimalNumber('-123401', 2),
                 false
             ],
             [
-                new Number('1234.01'),
-                new Number('-1234.01'),
+                new DecimalNumber('1234.01'),
+                new DecimalNumber('-1234.01'),
                 false
             ],
         ];
