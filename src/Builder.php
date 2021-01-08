@@ -20,7 +20,7 @@ class Builder
     /**
      * Pattern for most numbers
      */
-    const NUMBER_PATTERN = "/^(?<sign>[-+])?(?<integerPart>\d+)?(?:\.(?<fractionalPart>\d+)(?<exponentPart>[eE](?<exponentSign>[-+])(?<exponent>\d+))?)?$/";
+    const NUMBER_PATTERN = "/^(?<sign>[-+])?(?<integerPart>\d+)?(?:[\.,](?<fractionalPart>\d+)(?<exponentPart>[eE](?<exponentSign>[-+])(?<exponent>\d+))?)?$/";
 
     /**
      * Pattern for integer numbers in scientific notation (rare but supported by spec)
