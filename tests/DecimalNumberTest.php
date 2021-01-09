@@ -13,6 +13,31 @@ use PrestaShop\Decimal\Operation\Rounding;
 
 class DecimalNumberTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Given a comma separated number in a string
+     * When constructing a Number with it
+     * Then it should interpret the sign, decimal and fractional parts correctly
+     *
+     * @param string $number
+     * @param string $expectedSign
+     * @param string $expectedInteger
+     * @param string $expectedFraction
+     * @param string $expectedStr
+     *
+     * @dataProvider provideValidCommaSeparatedNumbers
+     */
+    public function testItInterpretsCommaSeparatedNumbers($number, $expectedSign, $expectedInteger, $expectedFraction, $expectedStr)
+    {
+        $decimalNumber = new DecimalNumber($number);
+        $this->assertSame($expectedSign, $decimalNumber->getSign(), 'The sign is not as expected');
+        $this->assertSame($expectedInteger, $decimalNumber->getIntegerPart(), 'The integer part is not as expected');
+        $this->assertSame(
+            $expectedFraction,
+            $decimalNumber->getFractionalPart(),
+            'The fraction part is not as expected'
+        );
+        $this->assertSame($expectedStr, (string) $decimalNumber, 'The string representation is not as expected');
+    }
 
     /**
      * Given a valid number in a string
@@ -259,6 +284,67 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
             ->toPositive();
 
         $this->assertSame((string) $number, $expected);
+    }
+    
+    public function provideValidCommaSeparatedNumbers()
+    {
+        return [
+            [
+                'number'           => '0,0',
+                'expectedSign'     => '',
+                'expectedInteger'  => '0',
+                'expectedFraction' => '0',
+                'expectedStr'      => '0'
+            ],
+            ['00000,0', '', '0', '0', '0'],
+            ['0,00000', '', '0', '0', '0'],
+            ['00000,00000', '', '0', '0', '0'],
+            ['0,1', '', '0', '1', '0.1'],
+            ['1,0', '', '1', '0', '1'],
+            ['1,1', '', '1', '1', '1.1'],
+            ['1,234', '', '1', '234', '1.234'],
+            ['0,1245', '', '0', '1245', '0.1245'],
+            ['1', '', '1', '0', '1'],
+            ['01', '', '1', '0', '1'],
+            ['01,0', '', '1', '0', '1'],
+            ['01,01', '', '1', '01', '1.01'],
+            ['10,2345', '', '10', '2345', '10.2345'],
+            '123917549171231,12451028401824' => ['123917549171231,12451028401824', '', '123917549171231', '12451028401824', '123917549171231.12451028401824'],
+            '+12351,49273592' => ['+12351,49273592', '', '12351', '49273592', '12351.49273592'],
+            '-12351,49273592' => ['-12351,49273592', '-', '12351', '49273592', '-12351.49273592'],
+            '-12351' => ['-12351', '-', '12351', '0', '-12351'],
+            '-0'     => ['-0', '', '0', '0', '0'],
+            '-01'    => ['-01', '-', '1', '0', '-1'],
+            '-01,0'  => ['-01,0', '-', '1', '0', '-1'],
+            '-01,01' => ['-01,01', '-', '1', '01', '-1.01'],
+            '0,1e-1' => ['0,1e-1', '', '0', '01', '0.01'],
+            '0,1e-2' => ['0,1e-2', '', '0', '001', '0.001'],
+            '0,1e-3' => ['0,1e-3', '', '0', '0001', '0.0001'],
+            '0,1e-4' => ['0,1e-4', '', '0', '00001', '0.00001'],
+            '0,1e-5' => ['0,1e-5', '', '0', '000001', '0.000001'],
+            '0,01e-1' => ['0,01e-1', '', '0', '001', '0.001'],
+            '123,01e-1' => ['123,01e-1', '', '12', '301', '12.301'],
+            '12301e-4' => ['12301e-4', '', '1', '2301', '1.2301'],
+            '12301e-5' => ['12301e-5', '', '0', '12301', '0.12301'],
+            '12301e-6' => ['12301e-6', '', '0', '012301', '0.012301'],
+            '12301e-7' => ['12301e-7', '', '0', '0012301', '0.0012301'],
+            '12301e-10' => ['12301e-10', '', '0', '0000012301', '0.0000012301'],
+            '12301e+3' => ['12301e+3', '', '12301000', '0', '12301000'],
+            '0,1e+1' => ['0,1e+1', '', '1', '0', '1'],
+            '0,1e+2' => ['0,1e+2', '', '10', '0', '10'],
+            '0,1e+3' => ['0,1e+3', '', '100', '0', '100'],
+            '0,1e+4' => ['0,1e+4', '', '1000', '0', '1000'],
+            '0,1e+5' => ['0,1e+5', '', '10000', '0', '10000'],
+            '123,01e+1' => ['123,01e+1', '', '1230', '1', '1230.1'],
+            '123,01e+5' => ['123,01e+5', '', '12301000', '0', '12301000'],
+            '1,0E+15' => ['1,0E+15', '', '1000000000000000', '0', '1000000000000000'],
+            '-123,0456E+15' => ['-123,0456E+15', '-', '123045600000000000', '0', '-123045600000000000'],
+            '-123,04560E+15' => ['-123,04560E+15', '-', '123045600000000000', '0', '-123045600000000000'],
+            ',1e+2' => [',1e+2', '', '10', '0', '10'],
+            '-,1e+2' => ['-,1e+2', '-', '10', '0', '-10'],
+            '+,1e+2' => ['+,1e+2', '', '10', '0', '10'],
+            ',01' => [',01', '', '0', '01', '0.01'],
+        ];
     }
 
     public function provideValidNumbers()
