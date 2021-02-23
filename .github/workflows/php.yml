@@ -15,6 +15,8 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
 
+    - uses: actions/checkout@v2
+
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
