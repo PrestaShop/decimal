@@ -1,8 +1,7 @@
 # Decimal
 
 [![Build Status](https://api.travis-ci.org/PrestaShop/decimal.svg?branch=master)](https://travis-ci.org/PrestaShop/decimal)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/985899efeb83453babcc507def66c90e)](https://www.codacy.com/app/PrestaShop/decimal?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PrestaShop/decimal&amp;utm_campaign=Badge_Grade)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/985899efeb83453babcc507def66c90e)](https://www.codacy.com/app/PrestaShop/decimal?utm_source=github.com&utm_medium=referral&utm_content=PrestaShop/decimal&utm_campaign=Badge_Coverage)
+[![Coverage Status](https://coveralls.io/repos/github/PrestaShop/decimal/badge.svg)](https://coveralls.io/github/PrestaShop/decimal)
 [![Total Downloads](https://img.shields.io/packagist/dt/prestashop/decimal.svg?style=flat-square)](https://packagist.org/packages/prestashop/decimal)
 
 An object-oriented [BC Math extension](http://php.net/manual/en/book.bc.php) wrapper/shim.
