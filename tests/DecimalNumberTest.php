@@ -8,10 +8,12 @@
 
 namespace PrestaShop\Decimal\Test;
 
+use InvalidArgumentException;
 use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Rounding;
+use PHPUnit\Framework\TestCase;
 
-class DecimalNumberTest extends \PHPUnit_Framework_TestCase
+class DecimalNumberTest extends TestCase
 {
 
     /**
@@ -65,10 +67,11 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
      * @param mixed $number
      *
      * @dataProvider provideInvalidNumbers
-     * @expectedException \InvalidArgumentException
      */
     public function testItThrowsExceptionWhenGivenInvalidNumber($number)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         new DecimalNumber($number);
     }
 
@@ -81,10 +84,11 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
      * @param mixed $exponent
      *
      * @dataProvider provideInvalidCoefficients
-     * @expectedException \InvalidArgumentException
      */
     public function testItThrowsExceptionWhenGivenInvalidCoefficientOrExponent($coefficient, $exponent)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         new DecimalNumber($coefficient, $exponent);
     }
 

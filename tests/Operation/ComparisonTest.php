@@ -8,11 +8,11 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Comparison;
 
-class ComparisonTest extends PHPUnit_Framework_TestCase
+class ComparisonTest extends TestCase
 {
 
     /**
@@ -20,7 +20,7 @@ class ComparisonTest extends PHPUnit_Framework_TestCase
      */
     private static $zero;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         static::$zero = new DecimalNumber('0');
     }

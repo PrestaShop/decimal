@@ -8,21 +8,23 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use PrestaShop\Decimal\Operation\Rounding;
 use PrestaShop\Decimal\DecimalNumber;
 
-class RoundingTest extends \PHPUnit_Framework_TestCase
+class RoundingTest extends TestCase
 {
 
     /**
      * Given decimal number
      * When rounding it using an undefined rounding mode
      * An InvalidArgumentException should be thrown
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function testItThrowsExceptionIfRoundingModeIsInvalid()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $decimalNumber = new DecimalNumber('1.2345');
         $rounding = new Rounding();
 
@@ -40,12 +42,12 @@ class RoundingTest extends \PHPUnit_Framework_TestCase
      *
      * @param mixed $precision
      *
-     * @expectedException \InvalidArgumentException
-     *
      * @dataProvider provideInvalidPrecision
      */
     public function testItThrowsExceptionIfPrecisionIsInvalid($precision)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $decimalNumber = new DecimalNumber('1.2345');
         $rounding = new Rounding();
 
