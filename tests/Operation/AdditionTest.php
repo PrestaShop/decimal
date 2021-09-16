@@ -10,8 +10,9 @@ namespace PrestaShop\Decimal\Test\Operation;
 
 use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Addition;
+use PHPUnit\Framework\TestCase;
 
-class AdditionTest extends \PHPUnit_Framework_TestCase
+class AdditionTest extends TestCase
 {
 
     /**

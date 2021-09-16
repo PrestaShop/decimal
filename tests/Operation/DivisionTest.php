@@ -8,10 +8,12 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
+use PHPUnit\Framework\TestCase;
 use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Division;
+use PrestaShop\Decimal\Exception\DivisionByZeroException;
 
-class DivisionTest extends \PHPUnit_Framework_TestCase
+class DivisionTest extends TestCase
 {
 
     /**
@@ -42,11 +44,11 @@ class DivisionTest extends \PHPUnit_Framework_TestCase
      * Given a decimal number which is not zero
      * When trying to divide it by zero using BC Math
      * Then we should get a DivisionByZeroException
-     *
-     * @expectedException PrestaShop\Decimal\Exception\DivisionByZeroException
      */
     public function testDivisionByZeroUsingBcMathThrowsException()
     {
+        $this->expectException(DivisionByZeroException::class);
+
         (new Division())->computeUsingBcMath(
             new DecimalNumber('1'),
             new DecimalNumber('0')
@@ -57,11 +59,11 @@ class DivisionTest extends \PHPUnit_Framework_TestCase
      * Given a decimal number which is not zero
      * When trying to divide it by zero without BC Math
      * Then we should get a DivisionByZeroException
-     *
-     * @expectedException PrestaShop\Decimal\Exception\DivisionByZeroException
      */
     public function testDivisionByZeroWithoutBcMathThrowsException()
     {
+        $this->expectException(DivisionByZeroException::class);
+
         (new Division())->computeWithoutBcMath(
             new DecimalNumber('1'),
             new DecimalNumber('0')

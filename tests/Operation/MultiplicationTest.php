@@ -8,10 +8,11 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
+use PHPUnit\Framework\TestCase;
 use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Multiplication;
 
-class MultiplicationTest extends \PHPUnit_Framework_TestCase
+class MultiplicationTest extends TestCase
 {
 
     /**
