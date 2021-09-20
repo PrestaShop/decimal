@@ -112,9 +112,7 @@ class Division
             $b = $b->toMagnitude($maxPrecision);
         }
 
-        $result = $this->integerDivision($a, $b, max($precision, $aPrecision));
-
-        return $result;
+        return $this->integerDivision($a, $b, $precision);
     }
 
     /**
