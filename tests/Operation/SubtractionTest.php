@@ -14,7 +14,6 @@ use PrestaShop\Decimal\Operation\Subtraction;
 
 class SubtractionTest extends TestCase
 {
-
     /**
      * Given two decimal numbers
      * When computing the subtraction operation
@@ -70,9 +69,8 @@ class SubtractionTest extends TestCase
             [
                 '9223372036854775807.9223372036854775807',
                 '1.01',
-                '9223372036854775806.9123372036854775807'
+                '9223372036854775806.9123372036854775807',
             ],
         ];
     }
-
 }

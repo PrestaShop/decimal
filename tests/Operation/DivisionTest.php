@@ -11,12 +11,11 @@ namespace PrestaShop\Decimal\Test\Operation;
 use Generator;
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Decimal\DecimalNumber;
-use PrestaShop\Decimal\Operation\Division;
 use PrestaShop\Decimal\Exception\DivisionByZeroException;
+use PrestaShop\Decimal\Operation\Division;
 
 class DivisionTest extends TestCase
 {
-
     /**
      * Given two decimal numbers
      * When computing the division operation between them

@@ -112,13 +112,13 @@ class Multiplication
         $stepNumber = 0;
         $result = new DecimalNumber('0');
 
-        for ($i = $bottomNumberLength - 1; $i >= 0; $i--) {
+        for ($i = $bottomNumberLength - 1; $i >= 0; --$i) {
             $carryOver = 0;
             $partialResult = '';
 
             // optimization: we don't need to bother multiplying by zero
             if ($bottomNumber[$i] === '0') {
-                $stepNumber++;
+                ++$stepNumber;
                 continue;
             }
 
@@ -127,7 +127,7 @@ class Multiplication
                 $partialResult = strrev($topNumber);
             } else {
                 // digit-by-digit multiplication using carry-over
-                for ($j = $topNumberLength - 1; $j >= 0; $j--) {
+                for ($j = $topNumberLength - 1; $j >= 0; --$j) {
                     $multiplicationResult = ($bottomNumber[$i] * $topNumber[$j]) + $carryOver;
                     $carryOver = floor($multiplicationResult / 10);
                     $partialResult .= $multiplicationResult % 10;
@@ -147,7 +147,7 @@ class Multiplication
                 new DecimalNumber(strrev($partialResult))
             );
 
-            $stepNumber++;
+            ++$stepNumber;
         }
 
         return (string) $result;

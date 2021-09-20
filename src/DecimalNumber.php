@@ -18,21 +18,23 @@ use PrestaShop\Decimal\Operation\Rounding;
  */
 class DecimalNumber
 {
-
     /**
      * Indicates if the number is negative
+     *
      * @var bool
      */
     private $isNegative = false;
 
     /**
      * Integer representation of this number
+     *
      * @var string
      */
     private $coefficient = '';
 
     /**
      * Scientific notation exponent. For practical reasons, it's always stored as a positive value.
+     *
      * @var int
      */
     private $exponent = 0;
@@ -59,14 +61,12 @@ class DecimalNumber
      *
      * @param string $number Number or coefficient
      * @param int|null $exponent [default=null] If provided, the number can be considered as the negative
-     * exponent of the scientific notation, or the number of fractional digits.
+     *                           exponent of the scientific notation, or the number of fractional digits
      */
     public function __construct($number, $exponent = null)
     {
         if (!is_string($number)) {
-            throw new InvalidArgumentException(
-                sprintf('Invalid type - expected string, but got (%s) "%s"', gettype($number), print_r($number, true))
-            );
+            throw new InvalidArgumentException(sprintf('Invalid type - expected string, but got (%s) "%s"', gettype($number), print_r($number, true)));
         }
 
         if (null === $exponent) {
@@ -226,12 +226,12 @@ class DecimalNumber
         }
 
         if ($precision > $return->getPrecision()) {
-            return (
+            return
                 $return->getSign()
-                .$return->getIntegerPart()
-                .'.'
-                .str_pad($return->getFractionalPart(), $precision, '0')
-            );
+                . $return->getIntegerPart()
+                . '.'
+                . str_pad($return->getFractionalPart(), $precision, '0')
+            ;
         }
 
         return (string) $return;
@@ -340,7 +340,7 @@ class DecimalNumber
      * the remaining decimals are truncated, with **no rounding**.
      *
      * @param self $divisor
-     * @param int $precision [optional] By default, up to Operation\Division::DEFAULT_PRECISION number of decimals.
+     * @param int $precision [optional] By default, up to Operation\Division::DEFAULT_PRECISION number of decimals
      *
      * @return self
      *
@@ -370,7 +370,7 @@ class DecimalNumber
      */
     public function isGreaterThan(self $number)
     {
-        return (1 === (new Operation\Comparison())->compare($this, $number));
+        return 1 === (new Operation\Comparison())->compare($this, $number);
     }
 
     /**
@@ -402,7 +402,7 @@ class DecimalNumber
      */
     public function isGreaterOrEqualThan(self $number)
     {
-        return (0 <= (new Operation\Comparison())->compare($this, $number));
+        return 0 <= (new Operation\Comparison())->compare($this, $number);
     }
 
     /**
@@ -434,7 +434,7 @@ class DecimalNumber
      */
     public function isLowerThan(self $number)
     {
-        return (-1 === (new Operation\Comparison())->compare($this, $number));
+        return -1 === (new Operation\Comparison())->compare($this, $number);
     }
 
     /**
@@ -446,7 +446,7 @@ class DecimalNumber
      */
     public function isLowerOrEqualThan(self $number)
     {
-        return (0 >= (new Operation\Comparison())->compare($this, $number));
+        return 0 >= (new Operation\Comparison())->compare($this, $number);
     }
 
     /**
@@ -478,11 +478,11 @@ class DecimalNumber
      */
     public function equals(self $number)
     {
-        return (
+        return
             $this->isNegative === $number->isNegative
             && $this->coefficient === $number->getCoefficient()
             && $this->exponent === $number->getExponent()
-        );
+        ;
     }
 
     /**
@@ -519,15 +519,11 @@ class DecimalNumber
     private function initFromScientificNotation($coefficient, $exponent)
     {
         if ($exponent < 0) {
-            throw new InvalidArgumentException(
-                sprintf('Invalid value for exponent. Expected a positive integer or 0, but got "%s"', $coefficient)
-            );
+            throw new InvalidArgumentException(sprintf('Invalid value for exponent. Expected a positive integer or 0, but got "%s"', $coefficient));
         }
 
         if (!preg_match("/^(?<sign>[-+])?(?<integerPart>\d+)$/", $coefficient, $parts)) {
-            throw new InvalidArgumentException(
-                sprintf('"%s" cannot be interpreted as a number', $coefficient)
-            );
+            throw new InvalidArgumentException(sprintf('"%s" cannot be interpreted as a number', $coefficient));
         }
 
         $this->isNegative = ('-' === $parts['sign']);
@@ -539,6 +535,7 @@ class DecimalNumber
         if ('' === $this->coefficient) {
             $this->exponent = 0;
             $this->coefficient = '0';
+
             return;
         }
 
@@ -558,11 +555,11 @@ class DecimalNumber
         if (0 < $exponent && '0' === substr($coefficient, -1)) {
             $fractionalPart = $this->getFractionalPart();
             $trailingZeroesToRemove = 0;
-            for ($i = $exponent - 1; $i >= 0; $i--) {
+            for ($i = $exponent - 1; $i >= 0; --$i) {
                 if ('0' !== $fractionalPart[$i]) {
                     break;
                 }
-                $trailingZeroesToRemove++;
+                ++$trailingZeroesToRemove;
             }
 
             if ($trailingZeroesToRemove > 0) {
