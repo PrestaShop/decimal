@@ -14,7 +14,6 @@ use PrestaShop\Decimal\Operation\MagnitudeChange;
 
 class MagnitudeChangeTest extends TestCase
 {
-
     /**
      * Given a decimal number
      * When changing its magnitude to a specific exponent
