@@ -8,6 +8,7 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
+use Generator;
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Division;
@@ -35,6 +36,30 @@ class DivisionTest extends TestCase
         $operation = new Division();
         $result1 = $operation->computeUsingBcMath($n1, $n2, 20);
         $result2 = $operation->computeWithoutBcMath($n1, $n2, 20);
+
+        $this->assertSame($expectedResult, (string) $result1, "Failed asserting $number1 / $number2 = $expectedResult (BC Math)");
+        $this->assertSame($expectedResult, (string) $result2, "Failed asserting $number1 / $number2 = $expectedResult");
+    }
+
+    /**
+     * Given two decimal numbers
+     * When computing the division operation between them
+     * Then we should get the result of dividing number1 by number2
+     *
+     * @param string $number1
+     * @param string $number2
+     * @param string $expectedResult
+     *
+     * @dataProvider provideNumbersToDivideWithPrecision
+     */
+    public function testItDividesNumbersToPrecision(string $number1, string $number2, int $precision, string $expectedResult): void
+    {
+        $n1 = new DecimalNumber($number1);
+        $n2 = new DecimalNumber($number2);
+
+        $operation = new Division();
+        $result1 = $operation->computeUsingBcMath($n1, $n2, $precision);
+        $result2 = $operation->computeWithoutBcMath($n1, $n2, $precision);
 
         $this->assertSame($expectedResult, (string) $result1, "Failed asserting $number1 / $number2 = $expectedResult (BC Math)");
         $this->assertSame($expectedResult, (string) $result2, "Failed asserting $number1 / $number2 = $expectedResult");
@@ -112,9 +137,21 @@ class DivisionTest extends TestCase
             // decimal dividend
             ['12315.73452342341', '27', '456.13831568234851851851'],
             ['0.73452342341', '27', '0.0272045712374074074'],
+            ['8.333333333333333', '1.333333333333333', '6.2500000000000013125'],
             // decimal divisor
             ['27', '12315.73452342341', '0.00219231747393129081'],
             ['27', '0.00000012315', '219244823.38611449451887941534'],
         ];
+    }
+
+    public function provideNumbersToDivideWithPrecision(): Generator
+    {
+        yield ['10.00', '1.2', 6, '8.333333'];
+        yield ['10.00', '1.1643', 4, '8.5888'];
+        yield ['8.333333333', '1.1643', 4, '7.1573'];
+        yield ['8.333333333', '1.1643', 6, '7.157376'];
+        yield ['8.333333', '1.1643', 9, '7.157376105'];
+        yield ['8.333333333', '1.1643', 12, '7.157376391823'];
+        yield ['123456789123456788999999', '1', 12, '123456789123456788999999'];
     }
 }
