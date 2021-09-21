@@ -17,7 +17,7 @@ class DecimalNumberTest extends TestCase
 {
     /**
      * Given a valid number in a string
-     * When constructing a Number with it
+     * When constructing a DecimalNumber with it
      * Then it should interpret the sign, decimal and fractional parts correctly
      *
      * @param string $number
@@ -43,7 +43,7 @@ class DecimalNumberTest extends TestCase
 
     /**
      * Given a valid coefficient and exponent
-     * When constructing a Number with them
+     * When constructing a DecimalNumber with them
      * Then it should convert them to the expected string
      *
      * @param string $coefficient
@@ -60,7 +60,7 @@ class DecimalNumberTest extends TestCase
 
     /**
      * Given an invalid number
-     * When constructing a Number with it
+     * When constructing a DecimalNumber with it
      * Then an InvalidArgumentException should be thrown
      *
      * @param mixed $number
@@ -76,7 +76,7 @@ class DecimalNumberTest extends TestCase
 
     /**
      * Given an invalid coefficient or exponent
-     * When constructing a Number with them
+     * When constructing a DecimalNumber with them
      * Then an InvalidArgumentException should be thrown
      *
      * @param mixed $coefficient
@@ -92,7 +92,7 @@ class DecimalNumberTest extends TestCase
     }
 
     /**
-     * Given a Number constructed with a valid number
+     * Given a DecimalNumber constructed with a valid number
      * When casting the number to string
      * The resulting string should not include leading nor trailing zeroes
      *
@@ -108,7 +108,7 @@ class DecimalNumberTest extends TestCase
     }
 
     /**
-     * Given a Number constructed with a valid number
+     * Given a DecimalNumber constructed with a valid number
      * When rounding it to a specific precision, using a specific rounding mode
      * The returned string should match the expectation
      *
@@ -126,7 +126,7 @@ class DecimalNumberTest extends TestCase
     }
 
     /**
-     * Given a Number constructed with a valid number
+     * Given a DecimalNumber constructed with a valid number
      * When rounding it to a specific precision, using a specific rounding mode
      * The returned string should match the expectation
      *
@@ -148,7 +148,7 @@ class DecimalNumberTest extends TestCase
     }
 
     /**
-     * Given a Number constructed with a valid number
+     * Given a DecimalNumber constructed with a valid number
      * When rounding it to a greater precision than its current one
      * The returned string should have been padded with the proper number of trailing zeroes
      *
@@ -169,7 +169,7 @@ class DecimalNumberTest extends TestCase
     }
 
     /**
-     * Given two instances of Number
+     * Given two instances of DecimalNumber
      * When comparing the first one with the second one
      * Then the result should be true if the instances are equal, and false otherwise
      *
