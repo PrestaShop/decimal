@@ -8,7 +8,7 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
-use PrestaShop\Decimal\Number;
+use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\MagnitudeChange;
 
 class MagnitudeChangeTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +28,7 @@ class MagnitudeChangeTest extends \PHPUnit_Framework_TestCase
      */
     public function testItChangesMagnitude($number, $exponent, $expected)
     {
-        $n = new Number($number);
+        $n = new DecimalNumber($number);
 
         $result = (new MagnitudeChange())->compute($n, $exponent);
 

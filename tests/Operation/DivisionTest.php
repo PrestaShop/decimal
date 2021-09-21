@@ -8,7 +8,7 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
-use PrestaShop\Decimal\Number;
+use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Division;
 
 class DivisionTest extends \PHPUnit_Framework_TestCase
@@ -27,8 +27,8 @@ class DivisionTest extends \PHPUnit_Framework_TestCase
      */
     public function testItDividesNumbers($number1, $number2, $expectedResult)
     {
-        $n1 = new Number($number1);
-        $n2 = new Number($number2);
+        $n1 = new DecimalNumber($number1);
+        $n2 = new DecimalNumber($number2);
 
         $operation = new Division();
         $result1 = $operation->computeUsingBcMath($n1, $n2, 20);
@@ -48,8 +48,8 @@ class DivisionTest extends \PHPUnit_Framework_TestCase
     public function testDivisionByZeroUsingBcMathThrowsException()
     {
         (new Division())->computeUsingBcMath(
-            new Number('1'),
-            new Number('0')
+            new DecimalNumber('1'),
+            new DecimalNumber('0')
         );
     }
 
@@ -63,8 +63,8 @@ class DivisionTest extends \PHPUnit_Framework_TestCase
     public function testDivisionByZeroWithoutBcMathThrowsException()
     {
         (new Division())->computeWithoutBcMath(
-            new Number('1'),
-            new Number('0')
+            new DecimalNumber('1'),
+            new DecimalNumber('0')
         );
     }
 
