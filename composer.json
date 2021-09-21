@@ -13,8 +13,11 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "PrestaShop SA",
+            "email": "contact@prestashop.com"
+        },{
             "name": "Pablo Borowicz",
-            "email": "eternoendless@gmail.com"
+            "email": "pablo.borowicz@prestashop.com"
         }
     ],
     "require": {
