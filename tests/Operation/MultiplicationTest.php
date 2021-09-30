@@ -8,12 +8,12 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
+use PHPUnit\Framework\TestCase;
 use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Multiplication;
 
-class MultiplicationTest extends \PHPUnit_Framework_TestCase
+class MultiplicationTest extends TestCase
 {
-
     /**
      * Given two decimal numbers
      * When computing the multiplication operation
@@ -42,23 +42,23 @@ class MultiplicationTest extends \PHPUnit_Framework_TestCase
     {
         return [
             // integer
-            'integer 1' => ['1', '1' ,'1'],
-            'integer 2' => ['1', '0' ,'0'],
-            'integer 3' => ['99999999990', '1' ,'99999999990'],
-            'integer 4' => ['1', '99999999990' ,'99999999990'],
-            'integer 5' => ['99999999990', '0' ,'0'],
-            'integer 6' => ['99999999990', '2' ,'199999999980'],
-            'integer 7' => ['99999999990', '10' ,'999999999900'],
-            'integer 8' => ['123456789', '123456789' ,'15241578750190521'],
-            'integer 9' => ['123456789', '-1' ,'-123456789'],
-            'integer 10' => ['-123456789', '-1' ,'123456789'],
-            'integer 11' => ['-123456789', '1' ,'-123456789'],
-            'integer 12' => ['123', '11234667' ,'1381864041'],
+            'integer 1' => ['1', '1', '1'],
+            'integer 2' => ['1', '0', '0'],
+            'integer 3' => ['99999999990', '1', '99999999990'],
+            'integer 4' => ['1', '99999999990', '99999999990'],
+            'integer 5' => ['99999999990', '0', '0'],
+            'integer 6' => ['99999999990', '2', '199999999980'],
+            'integer 7' => ['99999999990', '10', '999999999900'],
+            'integer 8' => ['123456789', '123456789', '15241578750190521'],
+            'integer 9' => ['123456789', '-1', '-123456789'],
+            'integer 10' => ['-123456789', '-1', '123456789'],
+            'integer 11' => ['-123456789', '1', '-123456789'],
+            'integer 12' => ['123', '11234667', '1381864041'],
             // decimals
-            'decimal 1' => ['99999999990', '0.1' ,'9999999999'],
-            'decimal 2' => ['99999999990', '0.0001' ,'9999999.999'],
-            'decimal 3' => ['99999999990', '0.0002' ,'19999999.998'],
-            'decimal 4' => ['1234.56789', '1234.56789' ,'1524157.8750190521'],
+            'decimal 1' => ['99999999990', '0.1', '9999999999'],
+            'decimal 2' => ['99999999990', '0.0001', '9999999.999'],
+            'decimal 3' => ['99999999990', '0.0002', '19999999.998'],
+            'decimal 4' => ['1234.56789', '1234.56789', '1524157.8750190521'],
         ];
     }
 }

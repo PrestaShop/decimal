@@ -8,15 +8,11 @@
 
 namespace PrestaShop\Decimal;
 
-use PrestaShop\Decimal\DecimalNumber;
-
-
 /**
  * Builds Number instances
  */
 class Builder
 {
-
     /**
      * Pattern for most numbers
      */
@@ -37,9 +33,7 @@ class Builder
     public static function parseNumber($number)
     {
         if (!self::itLooksLikeANumber($number, $numberParts)) {
-            throw new \InvalidArgumentException(
-                sprintf('"%s" cannot be interpreted as a number', print_r($number, true))
-            );
+            throw new \InvalidArgumentException(sprintf('"%s" cannot be interpreted as a number', print_r($number, true)));
         }
 
         $integerPart = '';
@@ -89,13 +83,12 @@ class Builder
      */
     private static function itLooksLikeANumber($number, &$numberParts)
     {
-        return (
+        return
             strlen((string) $number) > 0
             && (
                 preg_match(self::NUMBER_PATTERN, $number, $numberParts)
                 || preg_match(self::INT_EXPONENTIAL_PATTERN, $number, $numberParts)
             )
-        );
+        ;
     }
-
 }
