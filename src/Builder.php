@@ -16,12 +16,12 @@ class Builder
     /**
      * Pattern for most numbers
      */
-    const NUMBER_PATTERN = "/^(?<sign>[-+])?(?<integerPart>\d+)?(?:\.(?<fractionalPart>\d+)(?<exponentPart>[eE](?<exponentSign>[-+])(?<exponent>\d+))?)?$/";
+    public const NUMBER_PATTERN = "/^(?<sign>[-+])?(?<integerPart>\d+)?(?:\.(?<fractionalPart>\d+)(?<exponentPart>[eE](?<exponentSign>[-+])(?<exponent>\d+))?)?$/";
 
     /**
      * Pattern for integer numbers in scientific notation (rare but supported by spec)
      */
-    const INT_EXPONENTIAL_PATTERN = "/^(?<sign>[-+])?(?<integerPart>\d+)(?<exponentPart>[eE](?<exponentSign>[-+])(?<exponent>\d+))$/";
+    public const INT_EXPONENTIAL_PATTERN = "/^(?<sign>[-+])?(?<integerPart>\d+)(?<exponentPart>[eE](?<exponentSign>[-+])(?<exponent>\d+))$/";
 
     /**
      * Builds a Number from a string

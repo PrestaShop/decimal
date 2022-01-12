@@ -16,7 +16,7 @@ use PrestaShop\Decimal\Exception\DivisionByZeroException;
  */
 class Division
 {
-    const DEFAULT_PRECISION = 6;
+    public const DEFAULT_PRECISION = 6;
 
     /**
      * Performs the division.
