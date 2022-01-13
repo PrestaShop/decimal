@@ -15,12 +15,12 @@ use PrestaShop\Decimal\DecimalNumber;
  */
 class Rounding
 {
-    const ROUND_TRUNCATE = 'truncate';
-    const ROUND_CEIL = 'ceil';
-    const ROUND_FLOOR = 'floor';
-    const ROUND_HALF_UP = 'up';
-    const ROUND_HALF_DOWN = 'down';
-    const ROUND_HALF_EVEN = 'even';
+    public const ROUND_TRUNCATE = 'truncate';
+    public const ROUND_CEIL = 'ceil';
+    public const ROUND_FLOOR = 'floor';
+    public const ROUND_HALF_UP = 'up';
+    public const ROUND_HALF_DOWN = 'down';
+    public const ROUND_HALF_EVEN = 'even';
 
     /**
      * Rounds a decimal number to a specified precision
