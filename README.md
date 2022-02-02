@@ -1,7 +1,7 @@
 # Decimal
 
-[![Build Status](https://api.travis-ci.org/PrestaShop/decimal.svg?branch=master)](https://travis-ci.org/PrestaShop/decimal)
-[![GitHub release](https://img.shields.io/github/v/release/prestashop/decimal)](https://github.com/PrestaShop/decimal)
+[![Build status](https://github.com/PrestaShop/decimal/actions/workflows/php.yml/badge.svg)](https://github.com/PrestaShop/decimal/actions/workflows/php.yml)
+[![Coverage Status](https://coveralls.io/repos/github/PrestaShop/decimal/badge.svg)](https://coveralls.io/github/PrestaShop/decimal)
 [![Total Downloads](https://img.shields.io/packagist/dt/prestashop/decimal.svg?style=flat-square)](https://packagist.org/packages/prestashop/decimal)
 
 An object-oriented [BC Math extension](http://php.net/manual/en/book.bc.php) wrapper/shim.

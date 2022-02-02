@@ -8,12 +8,12 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
+use PHPUnit\Framework\TestCase;
 use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\MagnitudeChange;
 
-class MagnitudeChangeTest extends \PHPUnit_Framework_TestCase
+class MagnitudeChangeTest extends TestCase
 {
-
     /**
      * Given a decimal number
      * When changing its magnitude to a specific exponent

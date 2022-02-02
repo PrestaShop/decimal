@@ -8,15 +8,16 @@
 
 namespace PrestaShop\Decimal\Test;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Rounding;
 
-class DecimalNumberTest extends \PHPUnit_Framework_TestCase
+class DecimalNumberTest extends TestCase
 {
-
     /**
      * Given a valid number in a string
-     * When constructing a Number with it
+     * When constructing a DecimalNumber with it
      * Then it should interpret the sign, decimal and fractional parts correctly
      *
      * @param string $number
@@ -42,7 +43,7 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Given a valid coefficient and exponent
-     * When constructing a Number with them
+     * When constructing a DecimalNumber with them
      * Then it should convert them to the expected string
      *
      * @param string $coefficient
@@ -59,37 +60,39 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Given an invalid number
-     * When constructing a Number with it
+     * When constructing a DecimalNumber with it
      * Then an InvalidArgumentException should be thrown
      *
      * @param mixed $number
      *
      * @dataProvider provideInvalidNumbers
-     * @expectedException \InvalidArgumentException
      */
     public function testItThrowsExceptionWhenGivenInvalidNumber($number)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         new DecimalNumber($number);
     }
 
     /**
      * Given an invalid coefficient or exponent
-     * When constructing a Number with them
+     * When constructing a DecimalNumber with them
      * Then an InvalidArgumentException should be thrown
      *
      * @param mixed $coefficient
      * @param mixed $exponent
      *
      * @dataProvider provideInvalidCoefficients
-     * @expectedException \InvalidArgumentException
      */
     public function testItThrowsExceptionWhenGivenInvalidCoefficientOrExponent($coefficient, $exponent)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         new DecimalNumber($coefficient, $exponent);
     }
 
     /**
-     * Given a Number constructed with a valid number
+     * Given a DecimalNumber constructed with a valid number
      * When casting the number to string
      * The resulting string should not include leading nor trailing zeroes
      *
@@ -105,7 +108,7 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Given a Number constructed with a valid number
+     * Given a DecimalNumber constructed with a valid number
      * When rounding it to a specific precision, using a specific rounding mode
      * The returned string should match the expectation
      *
@@ -123,7 +126,7 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Given a Number constructed with a valid number
+     * Given a DecimalNumber constructed with a valid number
      * When rounding it to a specific precision, using a specific rounding mode
      * The returned string should match the expectation
      *
@@ -145,7 +148,7 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Given a Number constructed with a valid number
+     * Given a DecimalNumber constructed with a valid number
      * When rounding it to a greater precision than its current one
      * The returned string should have been padded with the proper number of trailing zeroes
      *
@@ -166,7 +169,7 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Given two instances of Number
+     * Given two instances of DecimalNumber
      * When comparing the first one with the second one
      * Then the result should be true if the instances are equal, and false otherwise
      *
@@ -265,11 +268,11 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                'number'           => '0.0',
-                'expectedSign'     => '',
-                'expectedInteger'  => '0',
+                'number' => '0.0',
+                'expectedSign' => '',
+                'expectedInteger' => '0',
                 'expectedFraction' => '0',
-                'expectedStr'      => '0'
+                'expectedStr' => '0',
             ],
             ['00000.0', '', '0', '0', '0'],
             ['0.00000', '', '0', '0', '0'],
@@ -288,9 +291,9 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
             '+12351.49273592' => ['+12351.49273592', '', '12351', '49273592', '12351.49273592'],
             '-12351.49273592' => ['-12351.49273592', '-', '12351', '49273592', '-12351.49273592'],
             '-12351' => ['-12351', '-', '12351', '0', '-12351'],
-            '-0'     => ['-0', '', '0', '0', '0'],
-            '-01'    => ['-01', '-', '1', '0', '-1'],
-            '-01.0'  => ['-01.0', '-', '1', '0', '-1'],
+            '-0' => ['-0', '', '0', '0', '0'],
+            '-01' => ['-01', '-', '1', '0', '-1'],
+            '-01.0' => ['-01.0', '-', '1', '0', '-1'],
             '-01.01' => ['-01.01', '-', '1', '01', '-1.01'],
             '0.1e-1' => ['0.1e-1', '', '0', '01', '0.01'],
             '0.1e-2' => ['0.1e-2', '', '0', '001', '0.001'],
@@ -365,7 +368,7 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
             'NaN' => ['asd'],
             'NaN with dot' => ['asd.foo'],
             'NaN with comma' => ['asd,foo'],
-            'array' => [array()],
+            'array' => [[]],
             'null' => [null],
             '1.' => ['1.'],
         ];
@@ -380,7 +383,7 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
             'NaN' => ['asd', 0],
             'NaN with dot' => ['asd.foo', 0],
             'NaN with comma' => ['asd,foo', 0],
-            'array' => [array(), 0],
+            'array' => [[], 0],
             'null' => [null, 0],
             'negative coefficient' => ['123', -5],
         ];
@@ -419,89 +422,89 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
     public function provideRoundingTestCases()
     {
         return [
-            'truncate 0'        => ['1.23456789', 0, Rounding::ROUND_TRUNCATE, '1'],
-            'truncate 1'        => ['1.23456789', 1, Rounding::ROUND_TRUNCATE, '1.2'],
-            'truncate 2'        => ['1.23456789', 2, Rounding::ROUND_TRUNCATE, '1.23'],
-            'truncate 3'        => ['1.23456789', 3, Rounding::ROUND_TRUNCATE, '1.234'],
-            'truncate 4'        => ['1.23456789', 4, Rounding::ROUND_TRUNCATE, '1.2345'],
-            'truncate 5'        => ['1.23456789', 5, Rounding::ROUND_TRUNCATE, '1.23456'],
-            'truncate 6'        => ['1.23456789', 6, Rounding::ROUND_TRUNCATE, '1.234567'],
-            'truncate 7'        => ['1.23456789', 7, Rounding::ROUND_TRUNCATE, '1.2345678'],
-            'truncate 8'        => ['1.23456789', 8, Rounding::ROUND_TRUNCATE, '1.23456789'],
+            'truncate 0' => ['1.23456789', 0, Rounding::ROUND_TRUNCATE, '1'],
+            'truncate 1' => ['1.23456789', 1, Rounding::ROUND_TRUNCATE, '1.2'],
+            'truncate 2' => ['1.23456789', 2, Rounding::ROUND_TRUNCATE, '1.23'],
+            'truncate 3' => ['1.23456789', 3, Rounding::ROUND_TRUNCATE, '1.234'],
+            'truncate 4' => ['1.23456789', 4, Rounding::ROUND_TRUNCATE, '1.2345'],
+            'truncate 5' => ['1.23456789', 5, Rounding::ROUND_TRUNCATE, '1.23456'],
+            'truncate 6' => ['1.23456789', 6, Rounding::ROUND_TRUNCATE, '1.234567'],
+            'truncate 7' => ['1.23456789', 7, Rounding::ROUND_TRUNCATE, '1.2345678'],
+            'truncate 8' => ['1.23456789', 8, Rounding::ROUND_TRUNCATE, '1.23456789'],
             // does not add trailing zeroes
-            'truncate 9'        => ['1.23456789', 9, Rounding::ROUND_TRUNCATE, '1.23456789'],
-            'truncate 10'       => ['1.23456789', 10, Rounding::ROUND_TRUNCATE, '1.23456789'],
+            'truncate 9' => ['1.23456789', 9, Rounding::ROUND_TRUNCATE, '1.23456789'],
+            'truncate 10' => ['1.23456789', 10, Rounding::ROUND_TRUNCATE, '1.23456789'],
             'truncate zeroes 1' => ['1.00000001', 3, Rounding::ROUND_TRUNCATE, '1'],
             'truncate zeroes 2' => ['1.00000001', 9, Rounding::ROUND_TRUNCATE, '1.00000001'],
-            'ceil 0'            => ['1.23456789', 0, Rounding::ROUND_CEIL, '2'],
-            'ceil 1'            => ['1.23456789', 1, Rounding::ROUND_CEIL, '1.3'],
-            'ceil 2'            => ['1.23456789', 2, Rounding::ROUND_CEIL, '1.24'],
-            'ceil 3'            => ['1.23456789', 3, Rounding::ROUND_CEIL, '1.235'],
-            'ceil 4'            => ['1.23456789', 4, Rounding::ROUND_CEIL, '1.2346'],
-            'ceil 5'            => ['1.23456789', 5, Rounding::ROUND_CEIL, '1.23457'],
-            'ceil 6'            => ['1.23456789', 6, Rounding::ROUND_CEIL, '1.234568'],
-            'ceil 7'            => ['1.23456789', 7, Rounding::ROUND_CEIL, '1.2345679'],
-            'ceil 8'            => ['1.23456789', 8, Rounding::ROUND_CEIL, '1.23456789'],
+            'ceil 0' => ['1.23456789', 0, Rounding::ROUND_CEIL, '2'],
+            'ceil 1' => ['1.23456789', 1, Rounding::ROUND_CEIL, '1.3'],
+            'ceil 2' => ['1.23456789', 2, Rounding::ROUND_CEIL, '1.24'],
+            'ceil 3' => ['1.23456789', 3, Rounding::ROUND_CEIL, '1.235'],
+            'ceil 4' => ['1.23456789', 4, Rounding::ROUND_CEIL, '1.2346'],
+            'ceil 5' => ['1.23456789', 5, Rounding::ROUND_CEIL, '1.23457'],
+            'ceil 6' => ['1.23456789', 6, Rounding::ROUND_CEIL, '1.234568'],
+            'ceil 7' => ['1.23456789', 7, Rounding::ROUND_CEIL, '1.2345679'],
+            'ceil 8' => ['1.23456789', 8, Rounding::ROUND_CEIL, '1.23456789'],
             // does not add trailing zeroes
-            'ceil 9'            => ['1.23456789', 9, Rounding::ROUND_CEIL, '1.23456789'],
-            'ceil 10'           => ['1.23456789', 10, Rounding::ROUND_CEIL, '1.23456789'],
-            'round half up 0'   => ['1.23456789', 0, Rounding::ROUND_HALF_UP, '1'],
-            'round half up 1'   => ['1.23456789', 1, Rounding::ROUND_HALF_UP, '1.2'],
-            'round half up 2'   => ['1.23456789', 2, Rounding::ROUND_HALF_UP, '1.23'],
-            'round half up 3'   => ['1.23456789', 3, Rounding::ROUND_HALF_UP, '1.235'],
-            'round half up 4'   => ['1.23456789', 4, Rounding::ROUND_HALF_UP, '1.2346'],
-            'round half up 5'   => ['1.23456789', 5, Rounding::ROUND_HALF_UP, '1.23457'],
-            'round half up 6'   => ['1.23456789', 6, Rounding::ROUND_HALF_UP, '1.234568'],
-            'round half up 7'   => ['1.23456789', 7, Rounding::ROUND_HALF_UP, '1.2345679'],
-            'round half up 8'   => ['1.23456789', 8, Rounding::ROUND_HALF_UP, '1.23456789'],
+            'ceil 9' => ['1.23456789', 9, Rounding::ROUND_CEIL, '1.23456789'],
+            'ceil 10' => ['1.23456789', 10, Rounding::ROUND_CEIL, '1.23456789'],
+            'round half up 0' => ['1.23456789', 0, Rounding::ROUND_HALF_UP, '1'],
+            'round half up 1' => ['1.23456789', 1, Rounding::ROUND_HALF_UP, '1.2'],
+            'round half up 2' => ['1.23456789', 2, Rounding::ROUND_HALF_UP, '1.23'],
+            'round half up 3' => ['1.23456789', 3, Rounding::ROUND_HALF_UP, '1.235'],
+            'round half up 4' => ['1.23456789', 4, Rounding::ROUND_HALF_UP, '1.2346'],
+            'round half up 5' => ['1.23456789', 5, Rounding::ROUND_HALF_UP, '1.23457'],
+            'round half up 6' => ['1.23456789', 6, Rounding::ROUND_HALF_UP, '1.234568'],
+            'round half up 7' => ['1.23456789', 7, Rounding::ROUND_HALF_UP, '1.2345679'],
+            'round half up 8' => ['1.23456789', 8, Rounding::ROUND_HALF_UP, '1.23456789'],
             // does not add trailing zeroes
-            'round half up 9'   => ['1.23456789', 9, Rounding::ROUND_HALF_UP, '1.23456789'],
-            'round half up 10'  => ['1.23456789', 10, Rounding::ROUND_HALF_UP, '1.23456789'],
+            'round half up 9' => ['1.23456789', 9, Rounding::ROUND_HALF_UP, '1.23456789'],
+            'round half up 10' => ['1.23456789', 10, Rounding::ROUND_HALF_UP, '1.23456789'],
         ];
     }
 
     public function providePrecisionTestCases()
     {
         return [
-            'truncate 0'  => ['1.23456789', 0, Rounding::ROUND_TRUNCATE, '1'],
-            'truncate 1'  => ['1.23456789', 1, Rounding::ROUND_TRUNCATE, '1.2'],
-            'truncate 2'  => ['1.23456789', 2, Rounding::ROUND_TRUNCATE, '1.23'],
-            'truncate 3'  => ['1.23456789', 3, Rounding::ROUND_TRUNCATE, '1.234'],
-            'truncate 4'  => ['1.23456789', 4, Rounding::ROUND_TRUNCATE, '1.2345'],
-            'truncate 5'  => ['1.23456789', 5, Rounding::ROUND_TRUNCATE, '1.23456'],
-            'truncate 6'  => ['1.23456789', 6, Rounding::ROUND_TRUNCATE, '1.234567'],
-            'truncate 7'  => ['1.23456789', 7, Rounding::ROUND_TRUNCATE, '1.2345678'],
-            'truncate 8'  => ['1.23456789', 8, Rounding::ROUND_TRUNCATE, '1.23456789'],
+            'truncate 0' => ['1.23456789', 0, Rounding::ROUND_TRUNCATE, '1'],
+            'truncate 1' => ['1.23456789', 1, Rounding::ROUND_TRUNCATE, '1.2'],
+            'truncate 2' => ['1.23456789', 2, Rounding::ROUND_TRUNCATE, '1.23'],
+            'truncate 3' => ['1.23456789', 3, Rounding::ROUND_TRUNCATE, '1.234'],
+            'truncate 4' => ['1.23456789', 4, Rounding::ROUND_TRUNCATE, '1.2345'],
+            'truncate 5' => ['1.23456789', 5, Rounding::ROUND_TRUNCATE, '1.23456'],
+            'truncate 6' => ['1.23456789', 6, Rounding::ROUND_TRUNCATE, '1.234567'],
+            'truncate 7' => ['1.23456789', 7, Rounding::ROUND_TRUNCATE, '1.2345678'],
+            'truncate 8' => ['1.23456789', 8, Rounding::ROUND_TRUNCATE, '1.23456789'],
             // adds trailing zeroes
-            'truncate 9'  => ['1.23456789', 9, Rounding::ROUND_TRUNCATE, '1.234567890'],
+            'truncate 9' => ['1.23456789', 9, Rounding::ROUND_TRUNCATE, '1.234567890'],
             'truncate 10' => ['1.23456789', 10, Rounding::ROUND_TRUNCATE, '1.2345678900'],
             // keeps trailing zeroes
             'truncate zeroes 1' => ['1.00000001', 3, Rounding::ROUND_TRUNCATE, '1.000'],
             'truncate zeroes 2' => ['1.00000001', 8, Rounding::ROUND_TRUNCATE, '1.00000001'],
-            'ceil 0'      => ['1.23456789', 0, Rounding::ROUND_CEIL, '2'],
-            'ceil 1'      => ['1.23456789', 1, Rounding::ROUND_CEIL, '1.3'],
-            'ceil 2'      => ['1.23456789', 2, Rounding::ROUND_CEIL, '1.24'],
-            'ceil 3'      => ['1.23456789', 3, Rounding::ROUND_CEIL, '1.235'],
-            'ceil 4'      => ['1.23456789', 4, Rounding::ROUND_CEIL, '1.2346'],
-            'ceil 5'      => ['1.23456789', 5, Rounding::ROUND_CEIL, '1.23457'],
-            'ceil 6'      => ['1.23456789', 6, Rounding::ROUND_CEIL, '1.234568'],
-            'ceil 7'      => ['1.23456789', 7, Rounding::ROUND_CEIL, '1.2345679'],
-            'ceil 8'      => ['1.23456789', 8, Rounding::ROUND_CEIL, '1.23456789'],
+            'ceil 0' => ['1.23456789', 0, Rounding::ROUND_CEIL, '2'],
+            'ceil 1' => ['1.23456789', 1, Rounding::ROUND_CEIL, '1.3'],
+            'ceil 2' => ['1.23456789', 2, Rounding::ROUND_CEIL, '1.24'],
+            'ceil 3' => ['1.23456789', 3, Rounding::ROUND_CEIL, '1.235'],
+            'ceil 4' => ['1.23456789', 4, Rounding::ROUND_CEIL, '1.2346'],
+            'ceil 5' => ['1.23456789', 5, Rounding::ROUND_CEIL, '1.23457'],
+            'ceil 6' => ['1.23456789', 6, Rounding::ROUND_CEIL, '1.234568'],
+            'ceil 7' => ['1.23456789', 7, Rounding::ROUND_CEIL, '1.2345679'],
+            'ceil 8' => ['1.23456789', 8, Rounding::ROUND_CEIL, '1.23456789'],
             'ceil zeroes' => ['1.00000001', 7, Rounding::ROUND_CEIL, '1.0000001'],
             // adds trailing zeroes
-            'ceil 9'      => ['1.23456789', 9, Rounding::ROUND_CEIL, '1.234567890'],
-            'ceil 10'     => ['1.23456789', 10, Rounding::ROUND_CEIL, '1.2345678900'],
-            'round half up 0'  => ['1.23456789', 0, Rounding::ROUND_HALF_UP, '1'],
-            'round half up 1'  => ['1.23456789', 1, Rounding::ROUND_HALF_UP, '1.2'],
-            'round half up 2'  => ['1.23456789', 2, Rounding::ROUND_HALF_UP, '1.23'],
-            'round half up 3'  => ['1.23456789', 3, Rounding::ROUND_HALF_UP, '1.235'],
-            'round half up 4'  => ['1.23456789', 4, Rounding::ROUND_HALF_UP, '1.2346'],
-            'round half up 5'  => ['1.23456789', 5, Rounding::ROUND_HALF_UP, '1.23457'],
-            'round half up 6'  => ['1.23456789', 6, Rounding::ROUND_HALF_UP, '1.234568'],
-            'round half up 7'  => ['1.23456789', 7, Rounding::ROUND_HALF_UP, '1.2345679'],
-            'round half up 8'  => ['1.23456789', 8, Rounding::ROUND_HALF_UP, '1.23456789'],
+            'ceil 9' => ['1.23456789', 9, Rounding::ROUND_CEIL, '1.234567890'],
+            'ceil 10' => ['1.23456789', 10, Rounding::ROUND_CEIL, '1.2345678900'],
+            'round half up 0' => ['1.23456789', 0, Rounding::ROUND_HALF_UP, '1'],
+            'round half up 1' => ['1.23456789', 1, Rounding::ROUND_HALF_UP, '1.2'],
+            'round half up 2' => ['1.23456789', 2, Rounding::ROUND_HALF_UP, '1.23'],
+            'round half up 3' => ['1.23456789', 3, Rounding::ROUND_HALF_UP, '1.235'],
+            'round half up 4' => ['1.23456789', 4, Rounding::ROUND_HALF_UP, '1.2346'],
+            'round half up 5' => ['1.23456789', 5, Rounding::ROUND_HALF_UP, '1.23457'],
+            'round half up 6' => ['1.23456789', 6, Rounding::ROUND_HALF_UP, '1.234568'],
+            'round half up 7' => ['1.23456789', 7, Rounding::ROUND_HALF_UP, '1.2345679'],
+            'round half up 8' => ['1.23456789', 8, Rounding::ROUND_HALF_UP, '1.23456789'],
             // adds trailing zeroes
-            'round half up 9'  => ['1.23456789', 9, Rounding::ROUND_HALF_UP, '1.234567890'],
+            'round half up 9' => ['1.23456789', 9, Rounding::ROUND_HALF_UP, '1.234567890'],
             'round half up 10' => ['1.23456789', 10, Rounding::ROUND_HALF_UP, '1.2345678900'],
         ];
     }
@@ -512,42 +515,42 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
             [
                 new DecimalNumber('0'),
                 new DecimalNumber('0', 5),
-                true
+                true,
             ],
             [
                 new DecimalNumber('0.1234'),
                 new DecimalNumber('1234', 4),
-                true
+                true,
             ],
             [
                 new DecimalNumber('1234.01'),
                 new DecimalNumber('123401', 2),
-                true
+                true,
             ],
             [
                 new DecimalNumber('-0'),
                 new DecimalNumber('0'),
-                true
+                true,
             ],
             [
                 new DecimalNumber('-1234.01'),
                 new DecimalNumber('-123401', 2),
-                true
+                true,
             ],
             [
                 new DecimalNumber('-1234.01'),
                 new DecimalNumber('123401', 2),
-                false
+                false,
             ],
             [
                 new DecimalNumber('1234.01'),
                 new DecimalNumber('-123401', 2),
-                false
+                false,
             ],
             [
                 new DecimalNumber('1234.01'),
                 new DecimalNumber('-1234.01'),
-                false
+                false,
             ],
         ];
     }
@@ -556,30 +559,30 @@ class DecimalNumberTest extends \PHPUnit_Framework_TestCase
     {
         return [
             // a is greater
-            'greater 1'  => ['1', '0', 1],
-            'greater 2'  => ['1.0', '0', 1],
-            'greater 3'  => ['1.01', '1.0', 1],
-            'greater 4'  => ['1.0000000000000000000000001', '1.0', 1],
-            'greater 5'  => ['10', '001', 1],
-            'greater 6'  => ['10', '-10', 1],
-            'greater 7'  => ['10', '-100', 1],
-            'greater 8'  => ['100', '10', 1],
-            'greater 9'  => ['-1', '-2', 1],
+            'greater 1' => ['1', '0', 1],
+            'greater 2' => ['1.0', '0', 1],
+            'greater 3' => ['1.01', '1.0', 1],
+            'greater 4' => ['1.0000000000000000000000001', '1.0', 1],
+            'greater 5' => ['10', '001', 1],
+            'greater 6' => ['10', '-10', 1],
+            'greater 7' => ['10', '-100', 1],
+            'greater 8' => ['100', '10', 1],
+            'greater 9' => ['-1', '-2', 1],
             'greater 10' => ['-1', '-0000002', 1],
             'greater 11' => ['-1', '-1.0000000001', 1],
             // a is equal
-            'equal 1'    => ['1', '01', 0],
-            'equal 2'    => ['0.1', '0000.1000000000000', 0],
+            'equal 1' => ['1', '01', 0],
+            'equal 2' => ['0.1', '0000.1000000000000', 0],
             // a is lower
-            'lower 1'    => ['0', '1', -1],
-            'lower 2'    => ['-1', '0', -1],
-            'lower 3'    => ['-1', '0.0001', -1],
-            'lower 4'    => ['-2', '-1', -1],
-            'lower 5'    => ['-02', '-1', -1],
-            'lower 6'    => ['-2', '-01', -1],
-            'lower 8'    => ['10', '100', -1],
-            'lower 9'    => ['-1.000001', '-1', -1],
-            'lower 10'   => ['-1000.000001', '-10.0001', -1],
+            'lower 1' => ['0', '1', -1],
+            'lower 2' => ['-1', '0', -1],
+            'lower 3' => ['-1', '0.0001', -1],
+            'lower 4' => ['-2', '-1', -1],
+            'lower 5' => ['-02', '-1', -1],
+            'lower 6' => ['-2', '-01', -1],
+            'lower 8' => ['10', '100', -1],
+            'lower 9' => ['-1.000001', '-1', -1],
+            'lower 10' => ['-1000.000001', '-10.0001', -1],
         ];
     }
 

@@ -18,6 +18,7 @@ class Subtraction
     /**
      * Maximum safe string size in order to be confident
      * that it won't overflow the max int size when operating with it
+     *
      * @var int
      */
     private $maxSafeIntStringSize;
@@ -59,6 +60,7 @@ class Subtraction
     {
         $precision1 = $a->getPrecision();
         $precision2 = $b->getPrecision();
+
         return new DecimalNumber((string) bcsub($a, $b, max($precision1, $precision2)));
     }
 
@@ -91,7 +93,7 @@ class Subtraction
                     ->plus($b)
                     ->toNegative();
             }
-        } else if ($b->isNegative()) {
+        } elseif ($b->isNegative()) {
             // if the minuend is positive subtrahend is negative, perform an addition
             // f(x, y) = x + |y|
             // eg. f(2, -1) = 2 + |-1| = 2 + 1 = 3
@@ -169,8 +171,8 @@ class Subtraction
      * @param string $number1
      * @param string $number2
      * @param bool $fractional [default=false]
-     * If true, the numbers will be treated as the fractional part of a number (padded with trailing zeroes).
-     * Otherwise, they will be treated as the integer part (padded with leading zeroes).
+     *                         If true, the numbers will be treated as the fractional part of a number (padded with trailing zeroes).
+     *                         Otherwise, they will be treated as the integer part (padded with leading zeroes).
      *
      * @return string
      */
@@ -185,7 +187,7 @@ class Subtraction
 
         $result = '';
         $carryOver = 0;
-        for ($i = $maxLength -1; 0 <= $i; $i--) {
+        for ($i = $maxLength - 1; 0 <= $i; --$i) {
             $operand1 = $number1[$i] - $carryOver;
             $operand2 = $number2[$i];
 

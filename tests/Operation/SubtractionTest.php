@@ -8,12 +8,12 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
+use PHPUnit\Framework\TestCase;
 use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Subtraction;
 
-class SubtractionTest extends \PHPUnit_Framework_TestCase
+class SubtractionTest extends TestCase
 {
-
     /**
      * Given two decimal numbers
      * When computing the subtraction operation
@@ -69,9 +69,8 @@ class SubtractionTest extends \PHPUnit_Framework_TestCase
             [
                 '9223372036854775807.9223372036854775807',
                 '1.01',
-                '9223372036854775806.9123372036854775807'
+                '9223372036854775806.9123372036854775807',
             ],
         ];
     }
-
 }

@@ -8,12 +8,12 @@
 
 namespace PrestaShop\Decimal\Test\Operation;
 
+use PHPUnit\Framework\TestCase;
 use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Decimal\Operation\Addition;
 
-class AdditionTest extends \PHPUnit_Framework_TestCase
+class AdditionTest extends TestCase
 {
-
     /**
      * Given two decimal numbers
      * When computing the addition operation
@@ -58,7 +58,7 @@ class AdditionTest extends \PHPUnit_Framework_TestCase
             [
                 '9223372036854775807.9223372036854775807',
                 '1.01',
-                '9223372036854775808.9323372036854775807'
+                '9223372036854775808.9323372036854775807',
             ],
             // test adding numbers to negative numbers
             ['-2', '1', '-1'],
@@ -73,7 +73,7 @@ class AdditionTest extends \PHPUnit_Framework_TestCase
             ['0', '-0.001', '-0.001'],
             ['0', '-1.001', '-1.001'],
             ['-1', '-2', '-3'],
-            ['100.12345567433134123236345', '-1.1', '99.02345567433134123236345']
+            ['100.12345567433134123236345', '-1.1', '99.02345567433134123236345'],
         ];
     }
 }

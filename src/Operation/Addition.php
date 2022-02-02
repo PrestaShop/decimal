@@ -15,10 +15,10 @@ use PrestaShop\Decimal\DecimalNumber;
  */
 class Addition
 {
-
     /**
      * Maximum safe string size in order to be confident
      * that it won't overflow the max int size when operating with it
+     *
      * @var int
      */
     private $maxSafeIntStringSize;
@@ -60,6 +60,7 @@ class Addition
     {
         $precision1 = $a->getPrecision();
         $precision2 = $b->getPrecision();
+
         return new DecimalNumber((string) bcadd($a, $b, max($precision1, $precision2)));
     }
 
@@ -168,15 +169,14 @@ class Addition
         return [$coeff1, $coeff2];
     }
 
-
     /**
      * Adds two integer numbers as strings.
      *
      * @param string $number1
      * @param string $number2
      * @param bool $fractional [default=false]
-     * If true, the numbers will be treated as the fractional part of a number (padded with trailing zeroes).
-     * Otherwise, they will be treated as the integer part (padded with leading zeroes).
+     *                         If true, the numbers will be treated as the fractional part of a number (padded with trailing zeroes).
+     *                         Otherwise, they will be treated as the integer part (padded with leading zeroes).
      *
      * @return string
      */
@@ -200,7 +200,7 @@ class Addition
 
         $result = '';
         $carryOver = 0;
-        for ($i = $maxLength - 1; 0 <= $i; $i--) {
+        for ($i = $maxLength - 1; 0 <= $i; --$i) {
             $sum = $number1[$i] + $number2[$i] + $carryOver;
 
             $result .= $sum % 10;

@@ -15,12 +15,12 @@ use PrestaShop\Decimal\DecimalNumber;
  */
 class Rounding
 {
-    const ROUND_TRUNCATE = 'truncate';
-    const ROUND_CEIL = 'ceil';
-    const ROUND_FLOOR = 'floor';
-    const ROUND_HALF_UP = 'up';
-    const ROUND_HALF_DOWN = 'down';
-    const ROUND_HALF_EVEN = 'even';
+    public const ROUND_TRUNCATE = 'truncate';
+    public const ROUND_CEIL = 'ceil';
+    public const ROUND_FLOOR = 'floor';
+    public const ROUND_HALF_UP = 'up';
+    public const ROUND_HALF_DOWN = 'down';
+    public const ROUND_HALF_EVEN = 'even';
 
     /**
      * Rounds a decimal number to a specified precision
@@ -54,7 +54,7 @@ class Rounding
                 break;
         }
 
-        throw new \InvalidArgumentException(sprintf("Invalid rounding mode: %s", print_r($roundingMode, true)));
+        throw new \InvalidArgumentException(sprintf('Invalid rounding mode: %s', print_r($roundingMode, true)));
     }
 
     /**
@@ -122,7 +122,7 @@ class Rounding
             return $this->truncate($number, $precision);
         }
 
-        /**
+        /*
          * The principle for ceil is the following:
          *
          * let X = number to round
@@ -183,7 +183,7 @@ class Rounding
             return $this->truncate($number, $precision);
         }
 
-        /**
+        /*
          * The principle for ceil is the following:
          *
          * let X = number to round
@@ -328,7 +328,6 @@ class Rounding
          * if D = 5 and E is odd and X is positive, roundHalfUp(X, P) = ceil(X, P)
          * if D = 5 and E is odd and X is negative, roundHalfUp(X, P) = floor(X, P)
          */
-
         $fractionalPart = $number->getFractionalPart();
 
         $digit = (int) $fractionalPart[$precision];
@@ -352,6 +351,7 @@ class Rounding
 
         // round away from zero
         $method = ($number->isPositive()) ? self::ROUND_CEIL : self::ROUND_FLOOR;
+
         return $this->compute($number, $precision, $method);
     }
 
@@ -362,8 +362,8 @@ class Rounding
      *
      * @param DecimalNumber $number Number to round
      * @param int $precision Maximum number of decimals
-     * @param int $halfwayValue Threshold upon which the rounding will be performed
-     *  away from zero instead of towards zero.
+     * @param int $halfwayValue threshold upon which the rounding will be performed
+     *                          away from zero instead of towards zero
      *
      * @return DecimalNumber
      */
@@ -386,13 +386,13 @@ class Rounding
          * if D >= Y, roundHalf(X, P) = ceil(X, P)
          * if D < Y, roundHalf(X, P) = truncate(X, P)
          */
-
         $fractionalPart = $number->getFractionalPart();
 
         $digit = (int) $fractionalPart[$precision];
         if ($digit >= $halfwayValue) {
             // round away from zero
             $mode = ($number->isPositive()) ? self::ROUND_CEIL : self::ROUND_FLOOR;
+
             return $this->compute($number, $precision, $mode);
         }
 
